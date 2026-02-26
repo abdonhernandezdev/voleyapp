@@ -1,5 +1,9 @@
 # VoleyApp — Backend
 
+<p align="center">
+  <img src="../frontend/src/assets/voleyplay_logo.png" alt="Logo VoleyPlay" width="120" />
+</p>
+
 API REST (y WebSocket) para la aplicación de aprendizaje de voleibol. Gestiona autenticación, preguntas, sesiones de juego, rankings, minijuegos de entrenamiento y configuración de zonas de formación.
 
 > Estado actual: **Versión Beta (MVP)**

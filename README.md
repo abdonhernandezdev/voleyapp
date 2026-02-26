@@ -1,5 +1,9 @@
 # VoleyPlay — Aprende Voleibol Jugando
 
+<p align="center">
+  <img src="frontend/src/assets/voleyplay_logo.png" alt="Logo VoleyPlay" width="120" />
+</p>
+
 Aplicación fullstack interactiva para enseñar voleibol a jugadores de iniciación (Infantil/Alevín). Incluye quiz, drag & drop en campo, simulador de rotaciones K1/K2, ranking global y panel del entrenador.
 
 > Estado actual: **Versión Beta (MVP)**

@@ -1,5 +1,9 @@
 # VoleyPlay — Frontend
 
+<p align="center">
+  <img src="src/assets/voleyplay_logo.png" alt="Logo VoleyPlay" width="120" />
+</p>
+
 © 2026 Abdón Hernández Perera. Todos los derechos reservados.
 
 Aplicación Angular 19 para el aprendizaje interactivo de voleibol. Orientada a jugadores principiantes (equipos juveniles) con quiz, minijuegos de arrastrar-y-soltar, simuladores de rotación y panel de entrenador.
