@@ -4,6 +4,8 @@
 
 Aplicación Angular 19 para el aprendizaje interactivo de voleibol. Orientada a jugadores principiantes (equipos juveniles) con quiz, minijuegos de arrastrar-y-soltar, simuladores de rotación y panel de entrenador.
 
+> Estado actual: **Versión Beta (MVP)**
+
 ---
 
 ## Stack

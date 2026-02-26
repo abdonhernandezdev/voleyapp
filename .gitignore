@@ -36,6 +36,3 @@ tmp-*.js
 Thumbs.db
 .vscode/
 .idea/
-
-# Local tooling state
-.claude/

@@ -1,10 +1,12 @@
-# 🏐 VoleyPlay — Aprende Voleibol Jugando
+# VoleyPlay — Aprende Voleibol Jugando
 
 Aplicación fullstack interactiva para enseñar voleibol a jugadores de iniciación (Infantil/Alevín). Incluye quiz, drag & drop en campo, simulador de rotaciones K1/K2, ranking global y panel del entrenador.
 
+> Estado actual: **Versión Beta (MVP)**
+
 ---
 
-## 🚀 Arrancar con Docker (más fácil)
+## Arrancar con Docker (más fácil)
 
 Necesitas tener instalado **Docker Desktop**.
 
@@ -28,7 +30,7 @@ docker-compose down
 
 ---
 
-## 💻 Arrancar en local (sin Docker)
+## Arrancar en local (sin Docker)
 
 ### Requisitos
 
@@ -77,7 +79,7 @@ ng serve
 
 ---
 
-## 🎮 Modos de juego
+## Modos de juego
 
 | Modo              | Ruta                    | Descripción                             |
 | ----------------- | ----------------------- | --------------------------------------- |
@@ -90,7 +92,7 @@ La autenticación usa cookie `httpOnly` segura (sin token en `localStorage`).
 
 ---
 
-## 👤 Roles de usuario
+## Roles de usuario
 
 - **`player`** — Jugador normal. Accede a los 3 modos de juego y el ranking.
 - **`coach`** — Entrenador. Además accede al panel con estadísticas de todos los jugadores.
@@ -99,7 +101,7 @@ Al registrarte, el rol siempre es `player`. El rol `coach` solo debe asignarse d
 
 ---
 
-## ⭐ Sistema de puntuación
+## Sistema de puntuación
 
 | Acción                       | Puntos   |
 | ---------------------------- | -------- |
@@ -111,19 +113,19 @@ Al registrarte, el rol siempre es `player`. El rol `coach` solo debe asignarse d
 
 ---
 
-## 📚 Contenido incluido (banco de preguntas)
+## Contenido incluido (banco de preguntas)
 
 El backend carga automáticamente **28 preguntas** organizadas en 5 categorías:
 
-- 🔄 **Rotaciones K1** — 5 preguntas (fácil → difícil)
-- 🛡️ **Rotaciones K2** — 4 preguntas
-- 👥 **Posiciones y Roles** — 6 preguntas
-- 🎯 **Sistemas de Juego** — 6 preguntas
-- 📋 **Reglas Básicas** — 7 preguntas
+- **Rotaciones K1** — 5 preguntas (fácil → difícil)
+- **Rotaciones K2** — 4 preguntas
+- **Posiciones y Roles** — 6 preguntas
+- **Sistemas de Juego** — 6 preguntas
+- **Reglas Básicas** — 7 preguntas
 
 ---
 
-## 🗂️ Estructura del proyecto
+## Estructura del proyecto
 
 ```
 voley-app/
@@ -150,7 +152,7 @@ voley-app/
 
 ---
 
-## ♿ Accesibilidad (MVP/Beta)
+## Accesibilidad (MVP/Beta)
 
 Se han aplicado mejoras base para navegación por teclado y semántica:
 
@@ -161,19 +163,18 @@ Se han aplicado mejoras base para navegación por teclado y semántica:
 
 Documentación específica:
 
-- `docs/accesibilidad.md`
 - `docs/manual_usuario.md`
 - `docs/manual_tecnico.md`
 
 ---
 
-## © Copyright
+## Copyright
 
 © 2026 Abdón Hernández Perera. Todos los derechos reservados.
 
 ---
 
-## 🔧 Variables de entorno del backend
+## Variables de entorno del backend
 
 El backend las lee de las variables del sistema o del `docker-compose.yml`:
 
@@ -201,7 +202,7 @@ RATE_LIMIT_AUTH_LIMIT=8
 PORT=3000
 ```
 
-## 🔐 Producción segura
+## Producción segura
 
 1. Copia `.env.production.example` a `.env.production` y cambia todos los valores `CHANGE_ME`.
 2. No uses `docker-compose.yml` para producción; usa `docker-compose.prod.yml`.
@@ -216,7 +217,7 @@ docker compose --env-file .env.production -f docker-compose.prod.yml up -d
 
 ---
 
-## 🗺️ Próximas mejoras sugeridas
+## Próximas mejoras sugeridas
 
 - [ ] Editor de preguntas para el entrenador desde la UI
 - [ ] Modo contrarreloj con ranking semanal
