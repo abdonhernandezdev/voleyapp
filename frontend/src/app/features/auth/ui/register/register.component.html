@@ -1,0 +1,92 @@
+    <div class="auth-page">
+      <div class="auth-card card animate-slide-up">
+        <div class="auth-hero">
+          <div class="hero-ball">
+            <img
+              src="assets/voleyplay_logo.png"
+              alt="Logo VoleyPlay"
+              class="hero-logo"
+            />
+          </div>
+          <h1>Unete al equipo</h1>
+          <p>Crea tu cuenta y empieza a aprender</p>
+        </div>
+
+        <form class="auth-form" [formGroup]="form" (ngSubmit)="onRegister()">
+          <div class="avatar-picker">
+            <label>Elige tu avatar</label>
+            <div class="avatar-grid">
+              @for (avatar of avatars; track avatar) {
+                <button
+                  type="button"
+                  class="avatar-btn"
+                  [class.selected]="selectedAvatar === avatar"
+                  (click)="selectAvatar(avatar)"
+                >
+                  <span class="material-icons">{{ avatar }}</span>
+                </button>
+              }
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nombre para mostrar</label>
+              <input type="text" formControlName="displayName" placeholder="Tu apodo" />
+            </div>
+            <div class="form-group">
+              <label>Usuario</label>
+              <input type="text" formControlName="username" placeholder="username" />
+              @if (controlInvalid('username')) {
+                <small class="field-error">El usuario debe tener al menos 3 caracteres.</small>
+              }
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <span class="material-icons icon-inline">mail</span>
+              Email
+            </label>
+            <input type="email" formControlName="email" placeholder="tu@email.com" />
+            @if (controlInvalid('email')) {
+              <small class="field-error">Introduce un email valido.</small>
+            }
+          </div>
+
+          <div class="form-group">
+            <label>
+              <span class="material-icons icon-inline">lock</span>
+              Contrasena
+            </label>
+            <input type="password" formControlName="password" placeholder="Minimo 8 (letras y numeros)" />
+            @if (controlInvalid('password')) {
+              <small class="field-error">La contrasena debe tener al menos 8 caracteres, con letras y numeros.</small>
+            }
+          </div>
+
+          @if (error()) {
+            <div class="error-msg">
+              <span class="material-icons icon-inline">warning</span>
+              {{ error() }}
+            </div>
+          }
+
+          <button type="submit" class="btn-primary submit-btn" [disabled]="loading() || form.invalid">
+            @if (loading()) {
+              <span class="material-icons">hourglass_top</span>
+              Creando cuenta...
+            } @else {
+              <span class="material-icons">person_add</span>
+              Crear cuenta
+            }
+          </button>
+        </form>
+
+        <p class="auth-footer">
+          Ya tienes cuenta? <a routerLink="/auth/login">Iniciar sesion</a>
+        </p>
+
+        <small class="auth-copyright">© 2026 Abdón Hernández Perera</small>
+      </div>
+    </div>

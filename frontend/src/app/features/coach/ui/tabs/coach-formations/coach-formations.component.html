@@ -1,0 +1,77 @@
+<section class="card animate-slide-up">
+  <div class="panel-header">
+    <h2><span class="material-icons">grid_on</span> Editor de zonas de posicionamiento</h2>
+    <p class="panel-desc">Define las zonas validas por rotacion/escenario. Los juegos quedan bloqueados hasta que configures todas las zonas.</p>
+  </div>
+
+  <div class="formation-game-row">
+    @for (game of gameOptions; track game.key) {
+      <button
+        class="formation-game-btn"
+        [class.active]="selectedGameKey() === game.key"
+        (click)="selectGame(game.key)"
+        type="button"
+      >
+        <span class="game-btn-label">{{ game.label }}</span>
+        @if (getConfigStatus(game.key)?.configured) {
+          <span class="config-badge ok">✓</span>
+        } @else {
+          <span class="config-badge warn">⚠</span>
+        }
+        @if (getConfigStatus(game.key); as st) {
+          <small class="config-progress">{{ st.configuredCount }}/{{ st.totalCount }}</small>
+        }
+      </button>
+    }
+  </div>
+
+  <div class="formation-rotation-row">
+    @for (idx of getRotationIndices(); track idx) {
+      <button
+        class="rotation-tab-btn"
+        [class.active]="selectedRotationIdx() === idx"
+        (click)="selectRotation(idx)"
+        type="button"
+      >
+        {{ getRotationLabel(getSelectedGame(), idx) }}
+      </button>
+    }
+  </div>
+
+  <div class="formation-editor-wrap">
+    @if (loadingZones()) {
+      <div class="loading-state">
+        <span class="material-icons spin">hourglass_top</span>
+        <span>Cargando zonas...</span>
+      </div>
+    } @else {
+      <app-formation-editor
+        [initialZones]="currentZones()"
+        [playerLabels]="currentPlayerLabels()"
+        (zonesChange)="onZonesChange($event)"
+      ></app-formation-editor>
+    }
+  </div>
+
+  <div class="formation-actions">
+    @if (formationError()) {
+      <p class="feedback error">{{ formationError() }}</p>
+    }
+    @if (formationSuccess()) {
+      <p class="feedback success">Zonas guardadas correctamente.</p>
+    }
+    <button
+      class="btn-primary"
+      type="button"
+      [disabled]="savingZones() || currentZones().length === 0"
+      (click)="saveZones()"
+    >
+      @if (savingZones()) {
+        <span class="material-icons spin">hourglass_top</span>
+      } @else {
+        <span class="material-icons">save</span>
+      }
+      Guardar zonas
+    </button>
+  </div>
+</section>

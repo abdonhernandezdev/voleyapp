@@ -1,0 +1,27 @@
+.not-configured {
+  display: grid;
+  gap: 16px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.nc-body {
+  text-align: center;
+  display: grid;
+  gap: 12px;
+  padding: 24px 0;
+}
+
+.nc-icon {
+  font-size: 48px;
+  color: #e65100;
+}
+
+.not-configured h2 {
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.not-configured p {
+  color: #555;
+}

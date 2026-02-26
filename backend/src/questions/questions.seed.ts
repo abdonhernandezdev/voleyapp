@@ -1,0 +1,371 @@
+import { QuestionType, QuestionCategory, Difficulty } from './question.entity';
+
+export const QUESTIONS_SEED = [
+  // ==================== REGLAS BÁSICAS ====================
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.BASIC_RULES,
+    difficulty: Difficulty.EASY,
+    question: '¿Cuántos jugadores hay en el campo por equipo en voleibol?',
+    explanation: 'En voleibol cada equipo tiene 6 jugadores en el campo simultáneamente.',
+    options: ['4 jugadores', '5 jugadores', '6 jugadores', '7 jugadores'],
+    correctOptionIndex: 2,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.BASIC_RULES,
+    difficulty: Difficulty.EASY,
+    question: '¿Cuántos toques máximos puede dar un equipo antes de pasar la pelota al campo contrario?',
+    explanation: 'Cada equipo tiene un máximo de 3 toques para devolver el balón. El bloqueo no cuenta como toque.',
+    options: ['2 toques', '3 toques', '4 toques', 'Los que quiera'],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.BASIC_RULES,
+    difficulty: Difficulty.EASY,
+    question: '¿A cuántos puntos se gana un set en voleibol?',
+    explanation: 'Un set se gana a 25 puntos con diferencia de 2. El set decisivo (5º) se juega a 15.',
+    options: ['21 puntos', '25 puntos', '30 puntos', '15 puntos'],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.BASIC_RULES,
+    difficulty: Difficulty.MEDIUM,
+    question: '¿Cuántos sets hay que ganar para ganar un partido en voleibol?',
+    explanation: 'En voleibol el partido se juega al mejor de 5 sets, hay que ganar 3 sets para ganar.',
+    options: ['2 sets', '3 sets', '4 sets', '5 sets'],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.BASIC_RULES,
+    difficulty: Difficulty.MEDIUM,
+    question: 'En categoria infantil sin libero, ¿quien realiza el saque?',
+    explanation: 'Saca el jugador que esta en zona 1 segun la rotacion. Todos los jugadores pueden sacar cuando les corresponde.',
+    options: ['Solo el colocador', 'Cualquier jugador que rote a zona 1', 'Solo los receptores', 'Solo los centrales'],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.BASIC_RULES,
+    difficulty: Difficulty.MEDIUM,
+    question: '¿Qué ocurre cuando el equipo recibe gana el punto?',
+    explanation: 'Cuando el equipo que recibe gana el punto, ROTA en el sentido de las agujas del reloj antes de sacar.',
+    options: ['No pasa nada', 'Rotan en sentido contrario a las agujas del reloj', 'Rotan en el sentido de las agujas del reloj', 'El sacador cambia pero no rotan'],
+    correctOptionIndex: 2,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.BASIC_RULES,
+    difficulty: Difficulty.HARD,
+    question: '¿Puede un jugador de primera línea (delantera) atacar desde zona trasera?',
+    explanation: 'Un jugador de zona trasera puede atacar si salta desde detrás de la línea de 3 metros (línea de ataque). Los delanteros pueden atacar desde cualquier posición.',
+    options: ['No, nunca', 'Sí, desde cualquier posición', 'Sí, pero debe saltar desde detrás de la línea de 3m', 'Solo si es el colocador'],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.BASIC_RULES,
+    difficulty: Difficulty.HARD,
+    question: '¿Cuántas sustituciones puede hacer cada equipo por set?',
+    explanation: 'Cada equipo puede realizar un maximo de 6 sustituciones reglamentarias por set en competicion estandar.',
+    options: ['4 sustituciones', '6 sustituciones', '8 sustituciones', '12 sustituciones'],
+    correctOptionIndex: 1,
+  },
+
+  // ==================== POSICIONES Y ROLES ====================
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.POSITIONS_ROLES,
+    difficulty: Difficulty.EASY,
+    question: '¿Cuál es la función principal del colocador?',
+    explanation: 'El colocador es el "director de juego". Se encarga de dar el segundo toque para que los atacantes puedan rematar.',
+    options: ['Defender todos los ataques rivales', 'Dar el segundo toque y organizar el ataque', 'Sacar siempre', 'Bloquear en la red'],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.POSITIONS_ROLES,
+    difficulty: Difficulty.EASY,
+    question: 'Con plantilla infantil sin libero, ¿cuantos centrales usamos?',
+    explanation: 'La estructura definida es: 2 receptores, 2 centrales, 1 colocador y 1 opuesto.',
+    options: ['1 central', '2 centrales', '3 centrales', 'No se usan centrales'],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.POSITIONS_ROLES,
+    difficulty: Difficulty.EASY,
+    question: 'En defensa base infantil, ¿donde se coloca el receptor trasero?',
+    explanation: 'En este modelo de juego, el receptor trasero se fija en zona 6 para ordenar la defensa de fondo.',
+    options: ['Zona 1', 'Zona 5', 'Zona 6', 'Zona 3'],
+    correctOptionIndex: 2,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.POSITIONS_ROLES,
+    difficulty: Difficulty.MEDIUM,
+    question: '¿En qué zona del campo juega normalmente el opuesto?',
+    explanation: 'El opuesto (o receptor-atacante opuesto) juega en zona 1 (trasera derecha) cuando el colocador está adelante, siendo el principal rematador de segunda línea.',
+    options: ['Zona 6 (centro atrás)', 'Zona 4 (delantera izquierda)', 'Zona 2 (delantera derecha)', 'Zona 1 (trasera derecha)'],
+    correctOptionIndex: 3,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.POSITIONS_ROLES,
+    difficulty: Difficulty.MEDIUM,
+    question: '¿Cuántos receptores-atacantes (punteros) tiene normalmente un equipo en sistema 4-2 o 5-1?',
+    explanation: 'En el sistema 5-1 hay normalmente 2 receptores-atacantes (punteros/alas). En el 4-2 hay 2 atacantes por posición.',
+    options: ['1 receptor-atacante', '2 receptores-atacantes', '3 receptores-atacantes', '4 receptores-atacantes'],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.POSITIONS_ROLES,
+    difficulty: Difficulty.MEDIUM,
+    question: 'En defensa base infantil, ¿donde se coloca el central zaguero?',
+    explanation: 'El central zaguero se coloca en zona 5 para cerrar la diagonal larga y apoyar al bloqueo.',
+    options: ['Zona 2', 'Zona 5', 'Zona 6', 'Zona 4'],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.POSITIONS_ROLES,
+    difficulty: Difficulty.MEDIUM,
+    question: '¿Cuántos receptores tiene el sistema infantil propuesto?',
+    explanation: 'Se trabaja con dos receptores: uno delantero y uno trasero.',
+    options: ['1 receptor', '2 receptores', '3 receptores', '4 receptores'],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.POSITIONS_ROLES,
+    difficulty: Difficulty.HARD,
+    question: '¿Que combinacion forma el bloqueo doble habitual?',
+    explanation: 'En infantil se entrena bloqueo doble en ataques por zona 2 o 4, combinando central con opuesto o receptor delantero.',
+    options: [
+      'Central + opuesto o central + receptor delantero',
+      'Colocador + receptor trasero',
+      'Receptor trasero + central zaguero',
+      'Solo opuesto en cualquier ataque'
+    ],
+    correctOptionIndex: 0,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.POSITIONS_ROLES,
+    difficulty: Difficulty.HARD,
+    question: '¿Qué jugador ocupa normalmente la zona 3 (central delantera) y cuál es su función principal?',
+    explanation: 'El central ocupa la zona 3. Su funcion es bloquear en el centro de la red y atacar rapido en primer tiempo.',
+    options: ['El receptor trasero, para defender', 'El colocador, para distribuir', 'El central, para bloquear y atacar rapido', 'El opuesto, para rematar'],
+    correctOptionIndex: 2,
+  },
+
+  // ==================== ROTACIONES K1 ====================
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.ROTATIONS_K1,
+    difficulty: Difficulty.EASY,
+    question: '¿Qué significa "K1" en voleibol?',
+    explanation: 'K1 (o KI) es el complejo de juego en RECEPCIÓN. El equipo recibe el saque rival e intenta construir un ataque organizado.',
+    options: [
+      'El equipo está sacando',
+      'El equipo está recibiendo el saque rival',
+      'El equipo está en defensa de campo',
+      'El equipo ha ganado el set'
+    ],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.ROTATIONS_K1,
+    difficulty: Difficulty.EASY,
+    question: '¿En qué sentido rotan los jugadores cuando ganan el punto en recepción (K1)?',
+    explanation: 'Cuando se gana el punto en recepción y toca sacar, los jugadores rotan en el sentido de las agujas del reloj (zona 2→1→6→5→4→3→2...).',
+    options: [
+      'En el sentido contrario a las agujas del reloj',
+      'En el sentido de las agujas del reloj',
+      'No rotan, solo cambia el sacador',
+      'Rotan hacia atrás'
+    ],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.ROTATIONS_K1,
+    difficulty: Difficulty.MEDIUM,
+    question: 'En rotación 1 de K1 (con colocador en zona 1), ¿desde dónde colocará el balón habitualmente?',
+    explanation: 'El colocador en zona 1 sale desde atrás y suele desplazarse a zona 2-3 para colocar en la red, ya que tiene libertad de movimiento al no estar en primera línea.',
+    options: [
+      'Desde el centro del campo (zona 6)',
+      'Se desplaza hacia zona 2-3 para colocar en red',
+      'Permanece en zona 1 y coloca desde ahí',
+      'Se mantiene fijo en defensa y no participa'
+    ],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.ROTATIONS_K1,
+    difficulty: Difficulty.MEDIUM,
+    question: '¿Cuántas rotaciones de K1 existen en un equipo de voleibol?',
+    explanation: 'Existen 6 rotaciones en total (una por cada posición del colocador), tanto en K1 como en K2.',
+    options: ['3 rotaciones', '4 rotaciones', '6 rotaciones', '8 rotaciones'],
+    correctOptionIndex: 2,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.ROTATIONS_K1,
+    difficulty: Difficulty.HARD,
+    question: 'En K1 rotación 5 (colocador en zona 4), ¿qué limitación tiene el colocador?',
+    explanation: 'Con el colocador en zona 4 (delantera izquierda), está en primera línea. No puede entrar en zona trasera a recibir y tiene menos opciones de desplazamiento hacia la red.',
+    options: [
+      'No puede usar manos, solo antebrazos',
+      'Está en primera línea y tiene limitado el movimiento hacia atrás',
+      'Debe sacar él mismo',
+      'No puede atacar ni bloquear'
+    ],
+    correctOptionIndex: 1,
+  },
+
+  // ==================== ROTACIONES K2 ====================
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.ROTATIONS_K2,
+    difficulty: Difficulty.EASY,
+    question: '¿Qué significa "K2" en voleibol?',
+    explanation: 'K2 (o KII) es el complejo de juego en SAQUE. El equipo ha sacado y ahora debe defender el contraataque rival y construir su propio ataque.',
+    options: [
+      'El equipo está recibiendo',
+      'El equipo ha sacado y debe defender el contraataque',
+      'El equipo ha ganado el set anterior',
+      'El segundo set del partido'
+    ],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.ROTATIONS_K2,
+    difficulty: Difficulty.MEDIUM,
+    question: '¿Cuál es la principal diferencia en la disposición defensiva entre K1 y K2?',
+    explanation: 'En K2 el equipo defiende un ataque organizado del rival (3 atacantes), mientras que en K1 defiende tras su propio saque. La defensa en K2 suele ser más sistemática.',
+    options: [
+      'En K2 el colocador siempre está en zona 1',
+      'En K2 se defiende el contraataque rival con sistema de defensa estructurado',
+      'En K2 no se permite el bloqueo',
+      'En K2 hay más rotaciones que en K1'
+    ],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.ROTATIONS_K2,
+    difficulty: Difficulty.MEDIUM,
+    question: '¿Qué jugador debe ocupar la zona 6 en la defensa base infantil?',
+    explanation: 'En esta metodologia, el receptor trasero ocupa zona 6 para ordenar la defensa y leer trayectorias.',
+    options: [
+      'El central delantero',
+      'El colocador',
+      'El receptor trasero',
+      'El opuesto'
+    ],
+    correctOptionIndex: 2,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.ROTATIONS_K2,
+    difficulty: Difficulty.HARD,
+    question: 'En K2, cuando el colocador está en zona trasera (rotaciones 1, 2 ó 3), ¿puede atacar en zona delantera?',
+    explanation: 'No, un jugador de zona trasera no puede atacar golpeando el balón por encima de la parte superior de la red si está en zona delantera al contactar. Debe respetar la línea de 3 metros.',
+    options: [
+      'Sí, puede atacar desde cualquier posición',
+      'No, debe respetar la línea de 3 metros para atacar',
+      'Solo si el balón viene del campo contrario',
+      'Sí, porque en K2 las reglas son diferentes'
+    ],
+    correctOptionIndex: 1,
+  },
+
+  // ==================== SISTEMAS DE JUEGO ====================
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.GAME_SYSTEMS,
+    difficulty: Difficulty.EASY,
+    question: '¿Qué significa el sistema de juego "5-1"?',
+    explanation: 'El sistema 5-1 significa 5 atacantes y 1 colocador. Es el sistema más común en categorías superiores.',
+    options: [
+      '5 defensas y 1 atacante',
+      '5 atacantes y 1 colocador',
+      '5 sets y 1 descanso',
+      '5 rotaciones y 1 pausa'
+    ],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.GAME_SYSTEMS,
+    difficulty: Difficulty.EASY,
+    question: '¿Qué sistema de juego es más adecuado para categorías de iniciación como Infantil?',
+    explanation: 'En esta app trabajamos un 5-1 adaptado al nivel infantil con tareas claras por rol.',
+    options: ['6-0 (todos colocan)', '5-1 (un colocador)', '4-2 (dos colocadores)', '3-3 (tres atacantes)'],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.GAME_SYSTEMS,
+    difficulty: Difficulty.MEDIUM,
+    question: '¿Cuál es la ventaja del sistema 5-1 frente al 4-2?',
+    explanation: 'El 5-1 da continuidad al juego porque siempre distribuye el mismo colocador y se consolida la lectura tactica del equipo.',
+    options: [
+      'Es más fácil de aprender',
+      'Siempre hay dos colocadores',
+      'Mantiene un colocador fijo y mejora la organizacion del ataque',
+      'No requiere recepcion'
+    ],
+    correctOptionIndex: 2,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.GAME_SYSTEMS,
+    difficulty: Difficulty.MEDIUM,
+    question: '¿Qué es un "pipe" o ataque por zona 6?',
+    explanation: 'El pipe es un ataque rápido desde zona 6 (atrás centro) que realiza normalmente un jugador de zona trasera. Sorprende al bloqueo rival.',
+    options: [
+      'Un saque potente',
+      'Un ataque rápido desde zona 6 trasera',
+      'Una defensa especial del líbero',
+      'Una finta del colocador'
+    ],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.GAME_SYSTEMS,
+    difficulty: Difficulty.HARD,
+    question: 'En defensa, ¿cuando NO usamos bloqueo doble en este modelo?',
+    explanation: 'Se usa bloqueo doble en ataques por zona 2 y 4. En ataque por zona 3 se aplica bloqueo simple.',
+    options: [
+      'Cuando el rival ataca por zona 4',
+      'Cuando el rival ataca por zona 3',
+      'Cuando el rival ataca por zona 2',
+      'Siempre usamos doble bloqueo'
+    ],
+    correctOptionIndex: 1,
+  },
+  {
+    type: QuestionType.QUIZ,
+    category: QuestionCategory.GAME_SYSTEMS,
+    difficulty: Difficulty.HARD,
+    question: '¿Qué es el "bloqueo colectivo" o "bloqueo doble"?',
+    explanation: 'El bloqueo doble o colectivo es cuando dos jugadores delanteros saltan juntos en la red para bloquear un remate. Es más efectivo que el bloqueo individual.',
+    options: [
+      'Cuando todo el equipo salta a bloquear',
+      'Cuando dos jugadores saltan juntos en la red para bloquear',
+      'Un bloqueo que vale doble punto',
+      'Cuando el central zaguero sube desde zona 5'
+    ],
+    correctOptionIndex: 1,
+  },
+];

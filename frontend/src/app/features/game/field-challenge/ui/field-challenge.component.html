@@ -1,0 +1,151 @@
+    <div class="page-container">
+      <div class="field-header animate-slide-up">
+        <h1><span class="material-icons">shield</span> Defensa por zona de ataque</h1>
+        <p>Arrastra los jugadores libremente por el campo grande y comprueba la colocacion.</p>
+      </div>
+
+      @if (notConfigured()) {
+        <app-not-configured gameName="Defensa por zona de ataque" />
+      }
+
+      @if (!notConfigured() && !gameStarted() && !gameFinished()) {
+        <div class="setup card">
+          <h2>Como se puntua</h2>
+          <ul>
+            <li>Se valida jugador por jugador al pulsar Comprobar.</li>
+            <li>Objetivo: 6/6 correctos en cada escenario.</li>
+            <li>Completa las 3 situaciones de ataque rival.</li>
+          </ul>
+          <button class="btn-primary" (click)="startGame()"><span class="material-icons">play_arrow</span> Empezar</button>
+        </div>
+      }
+
+      @if (!notConfigured() && gameStarted() && !gameFinished()) {
+        <div class="scenario-info card">
+          <div class="scenario-top">
+            <h2>{{ scenario().title }}</h2>
+            <span class="scenario-chip" [class.simple]="scenario().blockType === 'simple'">
+              {{ scenario().blockType === 'doble' ? 'Bloqueo doble' : 'Bloqueo simple' }}
+            </span>
+          </div>
+
+          <p class="scenario-desc">{{ scenario().description }}</p>
+          <ul class="scenario-cues">
+            @for (cue of scenario().cues; track cue) {
+              <li>{{ cue }}</li>
+            }
+          </ul>
+          @if (error()) {
+            <p class="scenario-desc">{{ error() }}</p>
+          }
+
+          <div class="scenario-nav">
+            <button class="btn-outline nav-btn" (click)="prevScenario()" [disabled]="scenarioIndex() === 0 || checking()">
+              <span class="material-icons">west</span> Anterior
+            </button>
+            <span>{{ scenarioIndex() + 1 }} / {{ scenarios.length }}</span>
+            <button class="btn-outline nav-btn" (click)="nextScenario()" [disabled]="checking()">
+              <span class="material-icons">{{ scenarioIndex() === scenarios.length - 1 ? 'flag' : 'east' }}</span>
+              {{ scenarioIndex() === scenarios.length - 1 ? 'Finalizar' : 'Siguiente' }}
+            </button>
+          </div>
+        </div>
+
+        <div class="game-area">
+          <div class="field-panel card">
+            <div class="field-label top"><span class="material-icons">sports_martial_arts</span> Rival (ataque por Z{{ scenario().rivalAttackZone }})</div>
+
+            <div
+              class="free-field"
+              (dragover)="onFieldDragOver($event)"
+              (drop)="onFieldDrop($event)"
+              (click)="onFieldTap($event)"
+              (touchstart)="onFieldTouch($event)"
+            >
+              <div class="field-net"></div>
+              <div class="attack-line"></div>
+
+              @for (player of placedPlayers(); track player.id) {
+                <button
+                  class="field-player"
+                  [class.correct]="checked() && player.isCorrect"
+                  [class.incorrect]="checked() && player.isCorrect === false"
+                  [style.left.%]="player.position!.x"
+                  [style.top.%]="player.position!.y"
+                  type="button"
+                  [draggable]="supportsDrag"
+                  (dragstart)="onDragStart($event, player.id)"
+                  (click)="onTokenTap($event, player.id)"
+                >
+                  <span class="fp-name">{{ player.name }}</span>
+                </button>
+              }
+            </div>
+
+            <div class="field-label bottom"><span class="material-icons">sports_volleyball</span> Tu equipo (defensa)</div>
+          </div>
+
+          <div class="bench-panel card">
+            <h3><span class="material-icons">groups</span> Jugadores</h3>
+            <p class="touch-help">
+              Modo movil: toca un jugador y toca el campo para colocarlo.
+            </p>
+
+            <div class="players-grid">
+              @for (player of players(); track player.id) {
+                <button
+                  class="player-chip player-card"
+                  [class.selected]="selectedPlayerId() === player.id"
+                  [class.placed]="player.position !== null"
+                  type="button"
+                  [draggable]="supportsDrag"
+                  (dragstart)="onDragStart($event, player.id)"
+                  (click)="selectPlayer(player.id)"
+                >
+                  <div class="pc-name">{{ player.name }}</div>
+                  <div class="pc-role">{{ player.role }}</div>
+                  <div class="pc-hint">{{ player.hint }}</div>
+                </button>
+              }
+            </div>
+
+            <div class="field-actions">
+              <button class="btn-outline action-btn" (click)="resetPositions()" [disabled]="checking()"><span class="material-icons">refresh</span> Reiniciar</button>
+              <button class="btn-primary action-btn" [disabled]="unplacedCount() > 0 || checking()" (click)="checkPositions()"><span class="material-icons">task_alt</span> Comprobar</button>
+            </div>
+
+            @if (unplacedCount() > 0) {
+              <p class="pending-msg">Faltan {{ unplacedCount() }} jugadores por colocar.</p>
+            }
+          </div>
+        </div>
+
+        @if (checked()) {
+          <div class="check-result card" [class.all-correct]="allCorrect()">
+            @if (allCorrect()) {
+              <h3><span class="material-icons">military_tech</span> Muy bien</h3>
+              <p>La colocacion defensiva es correcta para este ataque.</p>
+            } @else {
+              <h3>{{ correctCount() }}/6 correctos</h3>
+              <p>Ajusta las fichas marcadas y vuelve a comprobar.</p>
+            }
+          </div>
+        }
+      }
+
+      @if (gameFinished()) {
+        <div class="finished-screen animate-bounce-in card">
+          <h2><span class="material-icons">flag</span> Reto completado</h2>
+          <p>Has trabajado defensa ante ataque por zona 2, 3 y 4.</p>
+          <p>Puntuacion tecnica: {{ totalScore() }} pts.</p>
+          @if (rankingSummary(); as summary) {
+            <p>Puntos de ranking sumados: <strong>{{ summary.awardedPoints }}</strong>.</p>
+            <p>Intentos puntuables hoy: {{ summary.remainingAwardsToday }}/{{ summary.dailyAwardLimit }}.</p>
+          }
+          <div class="finished-actions">
+            <button class="btn-primary" (click)="restartAll()"><span class="material-icons">refresh</span> Repetir</button>
+            <a routerLink="/dashboard" class="btn-outline"><span class="material-icons">home</span> Inicio</a>
+          </div>
+        </div>
+      }
+    </div>

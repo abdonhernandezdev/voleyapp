@@ -1,0 +1,197 @@
+<section class="grid-single">
+  <article class="card animate-slide-up question-toolbar">
+    <div class="question-view-switch">
+      <button
+        class="subtab-btn"
+        [class.active]="questionView() === 'editor'"
+        type="button"
+        (click)="setQuestionView('editor')"
+      >
+        <span class="material-icons">edit_note</span>
+        <span>Editor</span>
+      </button>
+      <button
+        class="subtab-btn"
+        [class.active]="questionView() === 'list'"
+        type="button"
+        (click)="setQuestionView('list')"
+      >
+        <span class="material-icons">list_alt</span>
+        <span>Listado</span>
+      </button>
+    </div>
+  </article>
+
+  @if (questionView() === 'editor') {
+    <article class="card animate-slide-up">
+      <div class="panel-header">
+        <h2><span class="material-icons">add_circle</span> {{ editingQuestionId() ? 'Editar pregunta' : 'Nueva pregunta' }}</h2>
+        <div class="panel-actions">
+          <button class="btn-outline compact-btn" type="button" (click)="refreshQuestions()">
+            <span class="material-icons">refresh</span>
+            <span>Recargar</span>
+          </button>
+          <button class="btn-outline compact-btn" type="button" (click)="setQuestionView('list')">
+            <span class="material-icons">list</span>
+            <span>Ir a listado</span>
+          </button>
+        </div>
+      </div>
+
+      <form class="coach-form" [formGroup]="questionForm" (ngSubmit)="submitQuestion()">
+        <label>
+          Enunciado
+          <textarea rows="3" formControlName="question"></textarea>
+        </label>
+
+        <label>
+          Explicacion (opcional)
+          <textarea rows="2" formControlName="explanation"></textarea>
+        </label>
+
+        <div class="inline-grid">
+          <label>
+            Categoria
+            <select class="ui-select" formControlName="category">
+              @for (option of categoryOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+          </label>
+
+          <label>
+            Dificultad
+            <select class="ui-select" formControlName="difficulty">
+              @for (option of difficultyOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+          </label>
+        </div>
+
+        <div class="options-grid">
+          <label>
+            Opcion A
+            <input formControlName="optionA" type="text" />
+          </label>
+          <label>
+            Opcion B
+            <input formControlName="optionB" type="text" />
+          </label>
+          <label>
+            Opcion C
+            <input formControlName="optionC" type="text" />
+          </label>
+          <label>
+            Opcion D
+            <input formControlName="optionD" type="text" />
+          </label>
+        </div>
+
+        <label>
+          Respuesta correcta
+          <select class="ui-select" formControlName="correctOptionIndex">
+            <option [value]="0">A</option>
+            <option [value]="1">B</option>
+            <option [value]="2">C</option>
+            <option [value]="3">D</option>
+          </select>
+        </label>
+
+        <div class="form-actions">
+          <button class="btn-primary" type="submit" [disabled]="savingQuestion()">
+            <span class="material-icons">{{ editingQuestionId() ? 'save' : 'add' }}</span>
+            <span>{{ editingQuestionId() ? 'Guardar cambios' : 'Crear pregunta' }}</span>
+          </button>
+          @if (editingQuestionId()) {
+            <button class="btn-outline" type="button" (click)="cancelQuestionEdit()">
+              <span class="material-icons">close</span>
+              <span>Cancelar</span>
+            </button>
+          }
+        </div>
+      </form>
+
+      @if (questionsError()) {
+        <p class="feedback error">{{ questionsError() }}</p>
+      }
+    </article>
+  }
+
+  @if (questionView() === 'list') {
+    <article class="card animate-slide-up">
+      <div class="panel-header">
+        <h2><span class="material-icons">list_alt</span> Banco de preguntas</h2>
+        <div class="panel-actions">
+          <label class="toggle-label">
+            <input #inactiveToggle type="checkbox" [checked]="includeInactiveQuestions()" (change)="toggleInactiveQuestions(inactiveToggle.checked)" />
+            <span>Mostrar inactivas</span>
+          </label>
+          <button class="btn-outline compact-btn" type="button" (click)="openQuestionEditorForCreate()">
+            <span class="material-icons">add</span>
+            <span>Nueva</span>
+          </button>
+        </div>
+      </div>
+
+      @if (loadingQuestions()) {
+        <div class="loading-state">
+          <span class="material-icons icon-inline spin">hourglass_top</span>
+          <span>Cargando preguntas...</span>
+        </div>
+      } @else {
+        <div class="question-list">
+          @for (question of questions(); track question.id) {
+            <article class="question-card" [class.inactive]="!question.isActive">
+              <header>
+                <div class="question-badges">
+                  <span class="tag">{{ getCategoryLabel(question.category) }}</span>
+                  <span class="tag soft">{{ getDifficultyLabel(question.difficulty) }}</span>
+                  <span class="tag" [class.soft]="!question.isCustom">{{ question.isCustom ? 'Custom' : 'Sistema' }}</span>
+                </div>
+                <div class="question-actions">
+                  @if (question.isCustom) {
+                    <button class="icon-btn" type="button" (click)="startEditQuestion(question)" title="Editar">
+                      <span class="material-icons">edit</span>
+                    </button>
+                    @if (question.isActive) {
+                      <button class="icon-btn" type="button" (click)="deactivateQuestion(question.id)" title="Desactivar">
+                        <span class="material-icons">block</span>
+                      </button>
+                    } @else {
+                      <button class="icon-btn" type="button" (click)="activateQuestion(question.id)" title="Reactivar">
+                        <span class="material-icons">check_circle</span>
+                      </button>
+                    }
+                    <button class="icon-btn danger" type="button" (click)="deleteQuestionPermanently(question)" title="Eliminar">
+                      <span class="material-icons">delete</span>
+                    </button>
+                  }
+                </div>
+              </header>
+
+              <h3>{{ question.question }}</h3>
+
+              @if (question.options?.length) {
+                <ol>
+                  @for (option of question.options; track option; let idx = $index) {
+                    <li [class.correct]="idx === question.correctOptionIndex">{{ option }}</li>
+                  }
+                </ol>
+              }
+
+              @if (question.explanation) {
+                <p class="small-copy">{{ question.explanation }}</p>
+              }
+
+              <footer>
+                <span>{{ question.timesAnswered }} respuestas</span>
+                <span>{{ question.accuracy }}% acierto</span>
+              </footer>
+            </article>
+          }
+        </div>
+      }
+    </article>
+  }
+</section>

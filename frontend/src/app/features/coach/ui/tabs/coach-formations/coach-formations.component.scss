@@ -1,0 +1,88 @@
+// ─── Formations Tab ───────────────────────────────────────────────────────────
+
+.panel-desc {
+  font-size: 14px;
+  color: var(--text-soft);
+  margin-top: 4px;
+}
+
+.formation-game-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 16px 0 8px;
+}
+
+.formation-game-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 14px;
+  background: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  transition: border-color 0.15s, box-shadow 0.15s;
+
+  &.active {
+    border-color: #c8102e;
+    box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.12);
+  }
+
+  &:hover:not(.active) { border-color: #aaa; }
+}
+
+.game-btn-label { font-weight: 800; }
+
+.config-badge {
+  font-size: 12px;
+  font-weight: 900;
+  border-radius: 999px;
+  padding: 1px 7px;
+
+  &.ok   { background: #e8f5e9; color: #2e7d32; }
+  &.warn { background: #fff3e0; color: #e65100; }
+}
+
+.config-progress { font-size: 11px; color: #888; }
+
+.formation-rotation-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 8px 0;
+}
+
+.rotation-tab-btn {
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 14px;
+  background: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  transition: border-color 0.15s;
+
+  &.active { border-color: #c8102e; background: #fff0f2; color: #c8102e; }
+}
+
+.formation-editor-wrap {
+  margin: 12px auto;
+  width: 100%;
+  max-width: 640px;
+}
+
+.formation-actions {
+  display: grid;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  width: 100%;
+  text-align: center;
+}

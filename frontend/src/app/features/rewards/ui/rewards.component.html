@@ -1,0 +1,130 @@
+<div class="page-container">
+  <header class="rewards-header card animate-slide-up">
+    <div>
+      <h1><span class="material-icons">redeem</span> Recompensas</h1>
+      <p>Canjea tus puntos por premios reales creados por tu entrenador.</p>
+    </div>
+    <div class="points-pills">
+      <div class="points-pill weekly" title="Puntos disponibles para canjear esta semana">
+        <span class="material-icons">calendar_today</span>
+        <strong>Semanales: {{ facade.pointsBalance()?.weeklyAvailablePoints ?? 0 }} pts</strong>
+      </div>
+      <div class="points-pill total" title="Puntos totales historicos">
+        <span class="material-icons">star</span>
+        <strong>Totales: {{ facade.pointsBalance()?.totalPoints ?? user()?.totalPoints ?? 0 }} pts</strong>
+      </div>
+    </div>
+  </header>
+
+  <nav class="rewards-tabs card animate-slide-up">
+    <button
+      class="tab-btn"
+      [class.active]="playerView() === 'catalog'"
+      (click)="setView('catalog')"
+      type="button"
+    >
+      <span class="material-icons">storefront</span>
+      <span>Catalogo</span>
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="playerView() === 'my-redemptions'"
+      (click)="setView('my-redemptions')"
+      type="button"
+    >
+      <span class="material-icons">receipt_long</span>
+      <span>Mis canjes</span>
+    </button>
+  </nav>
+
+  @if (playerView() === 'catalog') {
+    <section class="animate-slide-up">
+      @if (facade.rewardsError()) {
+        <p class="feedback error card">{{ facade.rewardsError() }}</p>
+      }
+      @if (facade.loadingRewards()) {
+        <div class="loading-state card">
+          <span class="material-icons icon-inline spin">hourglass_top</span>
+          <span>Cargando recompensas...</span>
+        </div>
+      } @else if (facade.rewards().length === 0) {
+        <div class="empty card">
+          <span class="material-icons empty-icon">redeem</span>
+          <p>No hay recompensas disponibles todavia. El entrenador puede crearlas desde su panel.</p>
+        </div>
+      } @else {
+        <div class="rewards-grid">
+          @for (reward of facade.rewards(); track reward.id) {
+            <article class="reward-card card">
+              <header>
+                <h3>{{ reward.name }}</h3>
+                <span class="cost-badge"><span class="material-icons icon-inline">star</span>{{ reward.pointCost }} pts</span>
+              </header>
+              @if (reward.description) {
+                <p class="reward-desc">{{ reward.description }}</p>
+              }
+              <div class="reward-meta">
+                <span class="tag soft">{{ stockLabel(reward) }}</span>
+              </div>
+              @if (reward.canAfford && (reward.stockAvailable === null || reward.stockAvailable > 0)) {
+                <button
+                  class="btn-primary"
+                  type="button"
+                  [disabled]="facade.redeeming()"
+                  (click)="confirmRedeem(reward)"
+                >
+                  <span class="material-icons">redeem</span> Canjear
+                </button>
+              } @else if (!reward.canAfford) {
+                <button class="btn-outline" type="button" disabled>
+                  <span class="material-icons">lock</span> Insuficiente
+                </button>
+              } @else {
+                <button class="btn-outline" type="button" disabled>
+                  <span class="material-icons">remove_shopping_cart</span> Sin stock
+                </button>
+              }
+            </article>
+          }
+        </div>
+      }
+    </section>
+  }
+
+  @if (playerView() === 'my-redemptions') {
+    <section class="card animate-slide-up">
+      <div class="panel-header">
+        <h2><span class="material-icons">receipt_long</span> Mis canjes</h2>
+      </div>
+      @if (facade.loadingMyRedemptions()) {
+        <div class="loading-state">
+          <span class="material-icons icon-inline spin">hourglass_top</span>
+          <span>Cargando...</span>
+        </div>
+      } @else if (facade.myRedemptions().length === 0) {
+        <p class="feedback">Aun no has canjeado ninguna recompensa.</p>
+      } @else {
+        <div class="redemption-list">
+          @for (redemption of facade.myRedemptions(); track redemption.id) {
+            <article class="redemption-card">
+              <div class="redemption-info">
+                <strong>{{ redemption.reward?.name || 'Recompensa' }}</strong>
+                <span class="cost-badge small"><span class="material-icons icon-inline">star</span>{{ redemption.pointsSpent }} pts</span>
+              </div>
+              <div class="redemption-meta">
+                <span class="status-badge" [class]="'status-' + redemption.status">{{ statusLabel(redemption.status) }}</span>
+                <small>Canjeado el {{ formatDate(redemption.redeemedAt) }}</small>
+                @if (redemption.deliveredAt) {
+                  <small>Entregado el {{ formatDate(redemption.deliveredAt) }}</small>
+                }
+                @if (redemption.notes) {
+                  <small class="notes">{{ redemption.notes }}</small>
+                }
+              </div>
+            </article>
+          }
+        </div>
+      }
+    </section>
+  }
+</div>

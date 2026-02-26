@@ -1,0 +1,130 @@
+    <div class="page-container">
+      <div class="ranking-header animate-slide-up">
+        <h1><span class="material-icons">leaderboard</span> {{ title() }}</h1>
+        <p>{{ subtitle() }}</p>
+        <div class="mode-switch">
+          <button
+            type="button"
+            class="mode-btn"
+            [class.active]="mode() === 'weekly'"
+            (click)="selectMode('weekly')"
+          >
+            <span class="material-icons">calendar_today</span>
+            Semanal
+          </button>
+          <button
+            type="button"
+            class="mode-btn"
+            [class.active]="mode() === 'global'"
+            (click)="selectMode('global')"
+          >
+            <span class="material-icons">public</span>
+            Global
+          </button>
+        </div>
+      </div>
+
+      <!-- My position -->
+      @if (myPosition(); as pos) {
+        <div class="my-position-card card animate-slide-up">
+          <div class="my-pos-left">
+            <div class="rank-badge" [class]="getRankClass(pos.position)">
+              {{ pos.position }}
+            </div>
+            <div class="my-pos-info">
+              <span class="material-icons my-pos-avatar">{{ getAvatarIcon(currentUser()?.avatarEmoji) }}</span>
+              <div>
+                <strong>Tu posición</strong>
+                <p>{{ currentUser()?.displayName }} · {{ pos.player?.totalPoints ?? 0 }} {{ pointsSuffix() }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="my-pos-stats">
+            <div class="mini-stat">
+              <div class="mini-val">{{ currentUser()?.gamesPlayed }}</div>
+              <div class="mini-lbl"><span class="material-icons">sports_esports</span> Partidas</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-val"><span class="material-icons">local_fire_department</span> {{ currentUser()?.streak }}</div>
+              <div class="mini-lbl">Racha</div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Podium top 3 -->
+      @if (ranking().length >= 3) {
+        <div class="podium animate-slide-up">
+            <div class="podium-item second">
+              <span class="material-icons pod-avatar">{{ getAvatarIcon(ranking()[1].avatarEmoji) }}</span>
+              <div class="pod-name">{{ ranking()[1].displayName }}</div>
+              <div class="pod-points"><span class="material-icons icon-inline">star</span> {{ ranking()[1].totalPoints }} pts</div>
+              <div class="pod-stand silver"><span class="material-icons">military_tech</span> 2º</div>
+            </div>
+            <div class="podium-item first">
+              <span class="material-icons pod-crown">workspace_premium</span>
+              <span class="material-icons pod-avatar big">{{ getAvatarIcon(ranking()[0].avatarEmoji) }}</span>
+              <div class="pod-name">{{ ranking()[0].displayName }}</div>
+              <div class="pod-points"><span class="material-icons icon-inline">star</span> {{ ranking()[0].totalPoints }} pts</div>
+              <div class="pod-stand gold"><span class="material-icons">emoji_events</span> 1º</div>
+            </div>
+            <div class="podium-item third">
+              <span class="material-icons pod-avatar">{{ getAvatarIcon(ranking()[2].avatarEmoji) }}</span>
+              <div class="pod-name">{{ ranking()[2].displayName }}</div>
+              <div class="pod-points"><span class="material-icons icon-inline">star</span> {{ ranking()[2].totalPoints }} pts</div>
+              <div class="pod-stand bronze"><span class="material-icons">workspace_premium</span> 3º</div>
+            </div>
+          </div>
+      }
+
+      <!-- Full ranking list -->
+      <div class="ranking-list card">
+        <div class="list-header">
+          <span>#</span><span>Jugador</span><span>{{ pointsColumnLabel() }}</span><span>Partidas</span><span>Precisión</span><span>Racha</span>
+        </div>
+
+        @if (loading()) {
+          <div class="loading-state">Cargando ranking...</div>
+        }
+
+        @for (entry of ranking(); track entry.id) {
+          <div class="ranking-row" [class.is-me]="entry.id === currentUser()?.id">
+            <div class="rank-badge-cell">
+              <div class="rank-badge" [class]="getRankClass(entry.rank)">
+                {{ entry.rank }}
+              </div>
+            </div>
+
+            <div class="player-info">
+              <span class="material-icons player-avatar-sm">{{ getAvatarIcon(entry.avatarEmoji) }}</span>
+              <div>
+                <div class="player-display">{{ entry.displayName }}</div>
+                <div class="player-username">&#64;{{ entry.username }}</div>
+              </div>
+            </div>
+
+            <div class="stat-cell points">
+              <span class="points-badge"><span class="material-icons icon-inline">star</span> {{ entry.totalPoints | number }}</span>
+            </div>
+            <div class="stat-cell">{{ entry.gamesPlayed }}</div>
+            <div class="stat-cell">
+              <div class="accuracy-bar">
+                <div class="accuracy-fill" [style.width]="entry.accuracy + '%'"></div>
+              </div>
+              <span>{{ entry.accuracy }}%</span>
+            </div>
+            <div class="stat-cell" [class.hot-streak]="entry.streak >= 3">
+              @if (entry.streak >= 3) { <span class="material-icons icon-inline">local_fire_department</span> }
+              {{ entry.streak }}
+            </div>
+          </div>
+        }
+
+        @if (!loading() && ranking().length === 0) {
+          <div class="empty-state">
+            <p>Aun no hay jugadores en el ranking. Se el primero.</p>
+            <a routerLink="/game/quiz" class="btn-primary">Jugar ahora</a>
+          </div>
+        }
+      </div>
+    </div>

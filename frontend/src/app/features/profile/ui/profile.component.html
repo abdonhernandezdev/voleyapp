@@ -1,0 +1,84 @@
+<div class="page-container profile-page">
+  <section class="card profile-card animate-slide-up">
+    <div class="head">
+      <h1><span class="material-icons">person</span> Tu perfil</h1>
+      <p>Personaliza nombre, avatar y recordatorios de racha.</p>
+    </div>
+
+    @if (error()) {
+      <div class="message error">{{ error() }}</div>
+    }
+    @if (saveMessage()) {
+      <div class="message success">{{ saveMessage() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="save()" class="profile-form">
+      <label>
+        <span>Nombre visible</span>
+        <input type="text" formControlName="displayName" maxlength="40" />
+      </label>
+
+      <div class="avatar-grid">
+        @for (icon of avatarOptions; track icon) {
+          <button
+            type="button"
+            class="avatar-option"
+            [class.active]="form.controls.avatarEmoji.value === icon"
+            (click)="form.controls.avatarEmoji.setValue(icon)"
+          >
+            <span class="material-icons">{{ icon }}</span>
+          </button>
+        }
+      </div>
+
+      <label class="checkbox-row">
+        <input type="checkbox" formControlName="streakReminderEmailEnabled" />
+        <span>Recibir recordatorio por email si voy a perder mi racha</span>
+      </label>
+
+      <button type="submit" class="btn-primary" [disabled]="saving() || loading()">
+        <span class="material-icons">save</span>
+        {{ saving() ? 'Guardando...' : 'Guardar cambios' }}
+      </button>
+    </form>
+  </section>
+
+  <section class="card achievements-card animate-slide-up">
+    <h2><span class="material-icons">military_tech</span> Tus logros</h2>
+    <div class="achievements-summary">
+      <span>{{ unlockedAchievements().length }} / {{ achievements().length }} desbloqueados</span>
+    </div>
+
+    <div class="achievements-grid">
+      @for (achievement of achievements(); track achievement.code) {
+        <article class="achievement-item" [class.unlocked]="achievement.unlocked">
+          <span class="material-icons">{{ achievement.icon }}</span>
+          <div class="achievement-content">
+            <h3>{{ achievement.title }}</h3>
+            <p>{{ achievement.description }}</p>
+            <div class="achievement-reward">
+              <span class="material-icons">stars</span>
+              <small>+{{ achievement.rewardPoints }} pts por logro</small>
+            </div>
+            @if (!achievement.unlocked && achievement.progress) {
+              <div class="achievement-progress">
+                <div class="achievement-progress-head">
+                  <small>Progreso</small>
+                  <small>{{ achievement.progress.text }}</small>
+                </div>
+                <div class="progress-bar-container">
+                  <div class="progress-bar-fill" [style.width.%]="achievement.progress.percent"></div>
+                </div>
+              </div>
+            }
+            @if (achievement.unlockedAt) {
+              <small class="achievement-status">Desbloqueado: {{ achievement.unlockedAt | date:'dd/MM/yyyy' }}</small>
+            } @else {
+              <small class="achievement-status">Pendiente</small>
+            }
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+</div>

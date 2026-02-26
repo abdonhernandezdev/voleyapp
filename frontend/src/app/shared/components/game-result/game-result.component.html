@@ -1,0 +1,59 @@
+<div class="result-panel card animate-slide-up">
+  <h2>{{ title }}</h2>
+
+  <div class="result-stats">
+    <div class="stat">
+      <span class="stat-value">{{ score }}</span>
+      <span class="stat-label">Puntos obtenidos</span>
+    </div>
+    <div class="stat" *ngIf="accuracy !== null">
+      <span class="stat-value">{{ accuracy }}%</span>
+      <span class="stat-label">Precisión</span>
+    </div>
+  </div>
+
+  <div class="ranking-summary" *ngIf="rankingSummary">
+    <ng-container *ngIf="!rankingSummary.dailyCapApplied; else capApplied">
+      <p *ngIf="rankingSummary.awardedPoints > 0" class="points-awarded">
+        +{{ rankingSummary.awardedPoints }} puntos en ranking
+        <span *ngIf="trainingScoringLabel">({{ trainingScoringLabel }})</span>
+      </p>
+      <p *ngIf="rankingSummary.awardedPoints === 0" class="points-info">
+        Esta partida no sumó puntos de ranking.
+      </p>
+    </ng-container>
+    <ng-template #capApplied>
+      <p class="points-info">
+        Hoy ya puntuaste 2 veces en este modo. Esta partida no suma al ranking.
+      </p>
+    </ng-template>
+  </div>
+
+  <div class="quiz-summary" *ngIf="quizScoring">
+    <ng-container *ngIf="!quizScoring.dailyCapApplied; else quizCapApplied">
+      <p *ngIf="quizScoring.awardedPoints > 0" class="points-awarded">
+        +{{ quizScoring.awardedPoints }} puntos en ranking (Quiz técnico)
+      </p>
+    </ng-container>
+    <ng-template #quizCapApplied>
+      <p class="points-info">Hoy ya puntuaste 2 veces en Quiz técnico. Esta sesión no suma ranking.</p>
+    </ng-template>
+  </div>
+
+  <div class="achievements" *ngIf="unlockedAchievements.length > 0">
+    <h3>Logros desbloqueados</h3>
+    <ul>
+      <li *ngFor="let a of unlockedAchievements">
+        {{ a.title }}
+        <span *ngIf="a.rewardPoints > 0">(+{{ a.rewardPoints }} pts)</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="result-actions">
+    <button class="btn btn-primary" (click)="restart.emit()" type="button">
+      Jugar de nuevo
+    </button>
+    <a class="btn btn-outline" routerLink="/dashboard">Ir al inicio</a>
+  </div>
+</div>

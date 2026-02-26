@@ -1,0 +1,47 @@
+<div class="court-editor"
+     (mousemove)="onMouseMove($event)"
+     (mouseup)="onMouseUp()"
+     (touchmove)="onTouchMove($event)"
+     (touchend)="onTouchEnd()"
+     [class.dragging]="true">
+  <div class="court-field">
+    <!-- Court markings -->
+    <div class="net"></div>
+    <div class="line"></div>
+    <span class="zone z4">4</span>
+    <span class="zone z3">3</span>
+    <span class="zone z2">2</span>
+    <span class="zone z5">5</span>
+    <span class="zone z6">6</span>
+    <span class="zone z1">1</span>
+
+    @for (zone of zones(); track zone.playerId) {
+      <div class="zone-rect"
+           [style.left.%]="zone.x"
+           [style.top.%]="zone.y"
+           [style.width.%]="zone.w"
+           [style.height.%]="zone.h"
+           [style.--zone-color]="colorFor(zone.playerId)">
+        <!-- Move handle (center token) -->
+        <div class="zone-token"
+             (mousedown)="onMouseDown($event, zone.playerId, 'move')"
+             (touchstart)="onTouchStart($event, zone.playerId, 'move')">
+          {{ labelFor(zone.playerId) }}
+        </div>
+        <!-- Resize handles -->
+        <div class="handle tl"
+             (mousedown)="onMouseDown($event, zone.playerId, 'resize-tl')"
+             (touchstart)="onTouchStart($event, zone.playerId, 'resize-tl')"></div>
+        <div class="handle tr"
+             (mousedown)="onMouseDown($event, zone.playerId, 'resize-tr')"
+             (touchstart)="onTouchStart($event, zone.playerId, 'resize-tr')"></div>
+        <div class="handle bl"
+             (mousedown)="onMouseDown($event, zone.playerId, 'resize-bl')"
+             (touchstart)="onTouchStart($event, zone.playerId, 'resize-bl')"></div>
+        <div class="handle br"
+             (mousedown)="onMouseDown($event, zone.playerId, 'resize-br')"
+             (touchstart)="onTouchStart($event, zone.playerId, 'resize-br')"></div>
+      </div>
+    }
+  </div>
+</div>

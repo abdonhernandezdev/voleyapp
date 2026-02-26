@@ -1,0 +1,93 @@
+// ─── Players Tab ──────────────────────────────────────────────────────────────
+
+.table-wrapper { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--color-slate-200);
+  padding: 10px 12px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+th {
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  color: #5e6877;
+  font-size: 11px;
+}
+
+tr.top-player td { background: #fff2f5; }
+
+.player-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pl-avatar { font-size: 26px; }
+.pl-name   { font-weight: 700; }
+.pl-user   { color: #727c8d; font-size: 12px; }
+
+.accuracy-cell {
+  display: grid;
+  gap: 4px;
+  min-width: 78px;
+
+  span { font-size: 12px; font-weight: 700; }
+}
+
+.mini-bar {
+  height: 6px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #d8deea;
+}
+
+.mini-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #dc0a30, #840316);
+}
+
+.players-mobile { display: none; }
+
+.player-mobile-card {
+  border: 1px solid var(--color-slate-300);
+  border-radius: 12px;
+  background: #fff;
+  padding: 10px;
+  display: grid;
+  gap: 10px;
+
+  &.top-player { background: #fff2f5; }
+}
+
+.mobile-stats-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  div {
+    border: 1px solid var(--color-slate-200);
+    border-radius: 10px;
+    padding: 8px;
+    display: grid;
+    gap: 3px;
+  }
+
+  span   { font-size: 11px; color: #6b7484; }
+  strong { font-size: 15px; }
+}
+
+// ─── Responsive ───────────────────────────────────────────────────────────────
+
+@media (max-width: 900px) {
+  .desktop-table  { display: none; }
+  .players-mobile { display: grid; gap: 10px; }
+}

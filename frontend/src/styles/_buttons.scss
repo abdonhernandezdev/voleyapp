@@ -1,0 +1,89 @@
+// ─── Button Components ────────────────────────────────────────────────────────
+
+.btn-primary,
+.btn-outline,
+.btn-accent {
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 17px;
+  font-weight: 700;
+  padding: 11px 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-decoration: none;
+}
+
+a.btn-primary,
+a.btn-outline,
+a.btn-accent,
+.hero-cta,
+.featured-game,
+.mini-game,
+.quick-link,
+.reward-item,
+.tab-btn,
+.subtab-btn,
+.icon-btn {
+  text-decoration: none;
+}
+
+button,
+a {
+  .material-icons { font-size: 20px; }
+}
+
+.btn-primary {
+  border: 1px solid #8a0318;
+  color: #fff;
+  background: linear-gradient(135deg, var(--color-red-600) 0%, var(--color-red-700) 100%);
+  box-shadow: 0 10px 20px rgba(159, 6, 29, 0.24);
+
+  &:hover {
+    filter: brightness(1.04);
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+.btn-outline {
+  border: 2px solid #bec6d2;
+  color: #171d25;
+  background: #fff;
+
+  &:hover {
+    border-color: #151a22;
+    background: #151a22;
+    color: #fff;
+  }
+}
+
+.btn-outline:disabled,
+.btn-accent:disabled {
+  opacity: 0.56;
+  cursor: not-allowed;
+  filter: grayscale(0.1);
+}
+
+.btn-accent {
+  border: 1px solid #1e2128;
+  color: #fff;
+  background: linear-gradient(135deg, #242b35, #13171d);
+
+  &:hover { filter: brightness(1.06); }
+}
+
+@media (max-width: 768px) {
+  .btn-primary,
+  .btn-outline,
+  .btn-accent { width: 100%; }
+}

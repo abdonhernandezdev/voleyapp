@@ -1,0 +1,71 @@
+.page-container { display: grid; gap: 16px; }
+
+.rewards-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.rewards-header h1 { font-size: 28px; font-weight: 900; display: inline-flex; align-items: center; gap: 6px; }
+.rewards-header p { color: #555; margin-top: 4px; }
+.points-pills { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.points-pill { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 6px 14px; font-size: 15px; font-weight: 800; color: #fff; }
+.points-pill.weekly { background: #c8102e; }
+.points-pill.total { background: #111827; }
+
+.rewards-tabs { display: flex; gap: 6px; }
+.tab-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; border: none; border-radius: 8px; background: transparent; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 700; color: #555; transition: background .15s; }
+.tab-btn.active { background: #c8102e; color: #fff; }
+
+.rewards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px; margin-top: 12px; }
+.reward-card { display: grid; gap: 12px; min-height: 214px; }
+.reward-card header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; flex-wrap: wrap; }
+.reward-card h3 { font-size: 18px; font-weight: 900; color: #111; margin: 0; }
+.cost-badge { display: inline-flex; align-items: center; gap: 3px; background: #fff3cd; color: #856404; border-radius: 999px; padding: 3px 10px; font-size: 13px; font-weight: 800; white-space: nowrap; }
+.cost-badge.small { font-size: 12px; }
+.reward-desc { color: #444; font-size: 14px; }
+.reward-meta { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.empty { text-align: center; padding: 32px; }
+.empty-icon { font-size: 48px; color: #c8102e; display: block; margin: 0 auto 10px; }
+
+.loading-state { display: flex; align-items: center; gap: 8px; padding: 16px; color: #555; }
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.panel-header h2 { font-size: 20px; font-weight: 900; display: flex; align-items: center; gap: 6px; }
+
+.redemption-list { display: grid; gap: 10px; }
+.redemption-card { border: 1px solid #e0e0e0; border-radius: 10px; padding: 12px; display: grid; gap: 6px; }
+.redemption-info { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.redemption-info strong { font-size: 16px; }
+.redemption-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.status-badge { border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 800; }
+.status-pending { background: #fff3cd; color: #856404; }
+.status-delivered { background: #d1e7dd; color: #0a3622; }
+.status-cancelled { background: #f8d7da; color: #842029; }
+.notes { color: #555; font-style: italic; }
+
+.feedback { padding: 12px; color: #555; }
+.feedback.error { color: #842029; }
+
+.tag { background: #f0f0f0; border-radius: 999px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+.tag.soft { color: #555; }
+
+.icon-inline { font-size: 16px; vertical-align: middle; }
+
+@media (max-width: 860px) {
+  .points-pills {
+    width: 100%;
+  }
+
+  .points-pill {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .rewards-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .reward-card {
+    min-height: 0;
+  }
+}

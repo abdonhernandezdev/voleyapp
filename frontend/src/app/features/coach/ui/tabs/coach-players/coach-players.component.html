@@ -1,0 +1,115 @@
+<section class="card animate-slide-up">
+  <div class="panel-header">
+    <h2><span class="material-icons">analytics</span> Progreso de jugadores</h2>
+    <div class="panel-actions">
+      <input
+        #search
+        class="search-input"
+        type="text"
+        placeholder="Buscar jugador..."
+        (input)="searchQuery.set(search.value)"
+      />
+      <button class="btn-outline compact-btn" type="button" (click)="refreshPlayers()">
+        <span class="material-icons">refresh</span>
+        <span>Recargar</span>
+      </button>
+    </div>
+  </div>
+
+  @if (playersError()) {
+    <p class="feedback error">{{ playersError() }}</p>
+  }
+
+  @if (loadingPlayers()) {
+    <div class="loading-state">
+      <span class="material-icons icon-inline spin">hourglass_top</span>
+      <span>Cargando jugadores...</span>
+    </div>
+  }
+
+  <div class="table-wrapper desktop-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Jugador</th>
+          <th>Puntos</th>
+          <th>Partidas</th>
+          <th>Precision</th>
+          <th>Racha</th>
+          <th>Max. racha</th>
+          <th>Ultimo juego</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (player of filteredPlayers(); track player.id) {
+          <tr [class.top-player]="isTopPlayer(player.id)">
+            <td>
+              <div class="player-cell">
+                <span class="material-icons pl-avatar">{{ getAvatarIcon(player.avatarEmoji) }}</span>
+                <div>
+                  <div class="pl-name">{{ player.displayName }}</div>
+                  <div class="pl-user">&#64;{{ player.username }}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="points-badge">
+                <span class="material-icons icon-inline">star</span>
+                {{ player.totalPoints | number }}
+              </span>
+            </td>
+            <td>{{ player.gamesPlayed }}</td>
+            <td>
+              <div class="accuracy-cell">
+                <div class="mini-bar">
+                  <div class="mini-fill" [style.width]="getAccuracy(player) + '%'"></div>
+                </div>
+                <span>{{ getAccuracy(player) }}%</span>
+              </div>
+            </td>
+            <td>{{ player.streak }}</td>
+            <td>{{ player.maxStreak }}</td>
+            <td>{{ formatDate(player.lastPlayedAt) }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="players-mobile">
+    @for (player of filteredPlayers(); track player.id) {
+      <article class="player-mobile-card" [class.top-player]="isTopPlayer(player.id)">
+        <div class="player-cell">
+          <span class="material-icons pl-avatar">{{ getAvatarIcon(player.avatarEmoji) }}</span>
+          <div>
+            <div class="pl-name">{{ player.displayName }}</div>
+            <div class="pl-user">&#64;{{ player.username }}</div>
+          </div>
+        </div>
+
+        <div class="mobile-stats-grid">
+          <div>
+            <span>Puntos</span>
+            <strong>{{ player.totalPoints | number }}</strong>
+          </div>
+          <div>
+            <span>Partidas</span>
+            <strong>{{ player.gamesPlayed }}</strong>
+          </div>
+          <div>
+            <span>Precision</span>
+            <strong>{{ getAccuracy(player) }}%</strong>
+          </div>
+          <div>
+            <span>Ultimo juego</span>
+            <strong>{{ formatDate(player.lastPlayedAt) }}</strong>
+          </div>
+        </div>
+      </article>
+    }
+  </div>
+
+  @if (!loadingPlayers() && filteredPlayers().length === 0) {
+    <p class="feedback">No hay jugadores para mostrar.</p>
+  }
+</section>

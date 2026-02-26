@@ -1,0 +1,71 @@
+    <div class="auth-page">
+      <div class="auth-card card animate-slide-up">
+        <div class="auth-hero">
+          <div class="hero-ball">
+            <img
+              src="assets/voleyplay_logo.png"
+              alt="Logo VoleyPlay"
+              class="hero-logo"
+            />
+          </div>
+          <h1>VoleyPlay</h1>
+          <p>Aprende voleibol jugando</p>
+        </div>
+
+        <form class="auth-form" [formGroup]="form" (ngSubmit)="onLogin()">
+          <div class="form-group">
+            <label>
+              <span class="material-icons icon-inline">mail</span>
+              Email
+            </label>
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="tu@email.com"
+            />
+            @if (controlInvalid('email')) {
+              <small class="field-error">Introduce un email valido.</small>
+            }
+          </div>
+
+          <div class="form-group">
+            <label>
+              <span class="material-icons icon-inline">lock</span>
+              Contrasena
+            </label>
+            <input
+              type="password"
+              formControlName="password"
+              placeholder="••••••"
+            />
+            @if (controlInvalid('password')) {
+              <small class="field-error">La contrasena debe tener al menos 6 caracteres.</small>
+            }
+          </div>
+
+          @if (error()) {
+            <div class="error-msg">
+              <span class="material-icons icon-inline">warning</span>
+              {{ error() }}
+            </div>
+          }
+
+          <button type="submit" class="btn-primary submit-btn" [disabled]="loading() || form.invalid">
+            @if (loading()) {
+              <span class="material-icons">hourglass_top</span>
+              Entrando...
+            } @else {
+              <span class="material-icons">login</span>
+              Entrar
+            }
+          </button>
+        </form>
+
+        <p class="auth-footer">
+          No tienes cuenta?
+          <a routerLink="/auth/register">Registrate aqui</a>
+        </p>
+
+        <small class="auth-copyright">© 2026 Abdón Hernández Perera</small>
+      </div>
+    </div>

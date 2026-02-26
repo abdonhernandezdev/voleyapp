@@ -1,0 +1,56 @@
+<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+@if (!sessionChecked()) {
+  <main id="main-content" class="app-auth app-loading">
+    <section class="loading-card" aria-live="polite">
+      <img
+        src="assets/voleyplay_logo.png"
+        alt="Logo VoleyPlay"
+        class="loading-logo"
+      />
+      <p>Validando sesion...</p>
+    </section>
+  </main>
+} @else if (isLoggedIn()) {
+  <div class="app-frame">
+    <aside class="app-sidebar">
+      <app-navbar class="app-nav" />
+    </aside>
+    <main id="main-content" class="app-main">
+      @if (globalError()) {
+        <section class="global-error-banner" role="alert">
+          <span class="material-icons">error</span>
+          <p>{{ globalError() }}</p>
+          <button
+            type="button"
+            aria-label="Cerrar alerta global"
+            (click)="clearGlobalError()"
+          >
+            <span class="material-icons">close</span>
+          </button>
+        </section>
+      }
+      <router-outlet />
+    </main>
+  </div>
+} @else {
+  <main id="main-content" class="app-auth">
+    @if (globalError()) {
+      <section class="global-error-banner" role="alert">
+        <span class="material-icons">error</span>
+        <p>{{ globalError() }}</p>
+        <button
+          type="button"
+          aria-label="Cerrar alerta global"
+          (click)="clearGlobalError()"
+        >
+          <span class="material-icons">close</span>
+        </button>
+      </section>
+    }
+    <router-outlet />
+  </main>
+}
+
+<app-confirm-modal />
+<app-toast-center />

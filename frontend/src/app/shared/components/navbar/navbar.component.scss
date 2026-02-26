@@ -1,0 +1,229 @@
+.topbar {
+  height: 100%;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(166deg, rgba(208, 5, 37, 0.26) 0%, transparent 34%),
+    linear-gradient(180deg, #0b0d10 0%, #11161f 100%);
+  box-shadow: 16px 0 30px rgba(7, 8, 10, 0.2);
+}
+
+.topbar-inner {
+  height: 100%;
+  width: 292px;
+  padding: 14px 12px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 14px;
+}
+
+.brand {
+  text-decoration: none;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 20px;
+  overflow: hidden;
+}
+
+.brand-icon img {
+  width: 41px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  transform: scale(1.85);
+  transform-origin: center;
+}
+
+.brand-copy {
+  display: grid;
+  line-height: 1;
+  gap: 4px;
+}
+
+.brand-copy strong {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  font-size: 26px;
+}
+
+.brand-copy small {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.desktop-nav {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  overflow: visible;
+  padding-right: 0;
+}
+
+.top-link {
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: none;
+  padding: 10px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
+  cursor: pointer;
+
+  .material-icons { font-size: 18px; }
+}
+
+.top-link:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(1px);
+}
+
+.top-link.active {
+  border-color: #f76c80;
+  background: linear-gradient(135deg, #d90429 0%, #9f061d 100%);
+  color: #fff;
+}
+
+.desktop-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.copyright-note {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 10px;
+  line-height: 1.2;
+  letter-spacing: 0.2px;
+  text-align: center;
+}
+
+.copyright-note.mobile {
+  display: none;
+  margin-top: 8px;
+}
+
+.points-pill {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  white-space: nowrap;
+
+  .material-icons { font-size: 16px; color: #ffe37e; }
+}
+
+.user-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.user-initial {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.user-copy {
+  min-width: 0;
+  display: grid;
+  line-height: 1;
+  gap: 4px;
+}
+
+.user-copy strong {
+  color: #fff;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 170px;
+}
+
+.user-copy small {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.logout-btn {
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 10px;
+  background: transparent;
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background 0.16s ease, border-color 0.16s ease;
+
+  .material-icons { font-size: 17px; }
+}
+
+.logout-btn:hover {
+  border-color: rgba(255, 255, 255, 0.44);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.menu-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+
+  .material-icons { font-size: 20px; }
+}
+
+.mobile-menu {
+  display: none;
+}

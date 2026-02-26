@@ -1,0 +1,93 @@
+<div class="page-container">
+  @if (state() === 'setup') {
+    <app-quiz-setup
+      [selectedCategory]="selectedCategory()"
+      (categoryChange)="selectedCategory.set($event)"
+      (start)="startQuiz()"
+    />
+  }
+
+  @if (state() === 'playing' || state() === 'feedback') {
+    <div class="game-screen animate-slide-up">
+      <div class="progress-header card">
+        <div class="progress-info">
+          <span>Pregunta {{ currentIndex() + 1 }} de {{ questions().length }}</span>
+          <span class="points-badge"><span class="material-icons icon-inline">star</span> {{ sessionPoints() }} pts</span>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" [style.width]="progressPercent() + '%'"></div>
+        </div>
+      </div>
+
+      <div class="timer-row">
+        <div class="timer" [class.timer-warning]="timeLeft() <= 5">
+          <span class="material-icons icon-inline">timer</span> Tiempo: {{ timeLeft() }} s
+        </div>
+        <div class="streak-info" [class.hot]="streak() >= 3">
+          @if (streak() >= 3) { <span class="material-icons icon-inline">local_fire_department</span> Racha x{{ streak() }} }
+        </div>
+      </div>
+
+      @if (currentQuestion(); as q) {
+        <div class="question-card card">
+          <div class="question-meta">
+            <span class="cat-tag">{{ getCatLabel(q.category) }}</span>
+            <span class="diff-tag" [style.color]="getDiffColor(q.difficulty)">
+              {{ getDiffLabel(q.difficulty) }}
+            </span>
+          </div>
+
+          <h2 class="question-text">{{ q.question }}</h2>
+
+          <div class="options-grid">
+            @for (option of q.options; track $index) {
+              <button
+                class="quiz-option"
+                [class.answered]="state() === 'feedback'"
+                [class.correct]="state() === 'feedback' && $index === revealedCorrectOptionIndex()"
+                [class.incorrect]="state() === 'feedback' && selectedAnswer() === $index && $index !== revealedCorrectOptionIndex()"
+                [class.selected]="state() === 'playing' && selectedAnswer() === $index"
+                (click)="selectAnswer($index, q)"
+                [disabled]="state() === 'feedback' || answerSubmitting()"
+              >
+                <span class="option-letter">{{ letters[$index] }}</span>
+                {{ option }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      @if (state() === 'feedback') {
+        <div class="feedback-panel" [class.correct-panel]="lastCorrect()" [class.incorrect-panel]="!lastCorrect()">
+          <div class="feedback-header">
+            <strong>{{ lastCorrect() ? 'Correcto' : 'Incorrecto' }}</strong>
+            @if (lastCorrect()) {
+              <span><span class="material-icons icon-inline">star</span> +{{ lastPoints() }} pts</span>
+            }
+          </div>
+          @if (currentQuestion().explanation) {
+            <p class="explanation"><span class="material-icons icon-inline">lightbulb</span> {{ currentQuestion().explanation }}</p>
+          }
+          <button class="btn-primary next-btn" (click)="nextQuestion()">
+            <span class="material-icons">{{ isLastQuestion() ? 'flag' : 'east' }}</span>
+            {{ isLastQuestion() ? 'Ver resultados' : 'Siguiente pregunta' }}
+          </button>
+        </div>
+      }
+    </div>
+  }
+
+  @if (state() === 'finished') {
+    <app-quiz-result
+      [title]="getResultTitle()"
+      [correctCount]="correctCount()"
+      [totalQuestions]="questions().length"
+      [sessionPoints]="sessionPoints()"
+      [accuracy]="accuracy()"
+      [finalScoring]="finalScoring()"
+      [unlockedAchievements]="unlockedAchievements()"
+      (restart)="restart()"
+    />
+  }
+</div>

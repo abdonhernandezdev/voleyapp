@@ -1,0 +1,130 @@
+.game-screen {
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.progress-header { margin-bottom: 14px; }
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.timer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  gap: 10px;
+}
+
+.timer {
+  background: #f4f4f4;
+  color: #111;
+  border: 1px solid #d8d8d8;
+  border-radius: 18px;
+  padding: 7px 14px;
+  font-weight: 700;
+  font-size: 15px;
+  transition: all 0.25s;
+}
+
+.timer.timer-warning {
+  background: #fbe3e5;
+  color: #b80d1a;
+  border-color: #d86b75;
+  animation: pulse 0.55s infinite;
+}
+
+.streak-info { font-weight: 700; color: #b80d1a; font-size: 15px; min-height: 22px; }
+.hot { animation: pulse 0.85s infinite; }
+
+.question-card { padding: 22px; }
+
+.question-meta {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.cat-tag,
+.diff-tag {
+  border-radius: 12px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid #d8d8d8;
+  background: #f6f6f6;
+}
+
+.question-text {
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  color: #111;
+}
+
+.options-grid { display: flex; flex-direction: column; gap: 10px; }
+
+.option-letter {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #ececec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.feedback-panel {
+  margin-top: 14px;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 2px solid transparent;
+}
+
+.correct-panel { background: #efefef; border-color: #555; }
+.incorrect-panel { background: #fff3f4; border-color: #d86b75; }
+
+.feedback-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 18px;
+}
+
+.explanation {
+  font-size: 14px;
+  color: #303030;
+  line-height: 1.55;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.next-btn { max-width: 260px; }
+
+@media (max-width: 900px) {
+  .game-screen { max-width: 100%; }
+  .question-text { font-size: 19px; }
+}
+
+@media (max-width: 700px) {
+  .timer-row { flex-direction: column; align-items: flex-start; }
+  .question-card { padding: 16px; }
+}

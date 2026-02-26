@@ -1,0 +1,128 @@
+<div class="page-container duel-page">
+  <section class="card intro-card animate-slide-up">
+    <h1><span class="material-icons">sports_kabaddi</span> Duelo 1v1 en tiempo real</h1>
+    <p>Compite con otro jugador respondiendo las mismas preguntas a la vez.</p>
+  </section>
+
+  @if (error()) {
+    <section class="card message error">
+      <span class="material-icons">error</span>
+      <span>{{ error() }}</span>
+    </section>
+  }
+
+  @if (!state()) {
+    <section class="card lobby-card animate-slide-up">
+      <div class="lobby-columns">
+        <article>
+          <h2><span class="material-icons">add_circle</span> Crear sala</h2>
+          <p>Opcional: filtra por categoría para el duelo.</p>
+          <select
+            class="duel-select"
+            [ngModel]="selectedCategory()"
+            (ngModelChange)="selectedCategory.set($event)"
+          >
+            <option value="">Todas</option>
+            @for (category of categories; track category.value) {
+              <option [value]="category.value">{{ category.label }}</option>
+            }
+          </select>
+          <button class="btn-primary" type="button" [disabled]="!connected()" (click)="createRoom()">
+            <span class="material-icons">play_arrow</span>
+            Crear sala
+          </button>
+        </article>
+
+        <article>
+          <h2><span class="material-icons">group_add</span> Unirse</h2>
+          <p>Introduce el código de 6 caracteres.</p>
+          <input
+            class="duel-input"
+            type="text"
+            maxlength="6"
+            [ngModel]="joinCode()"
+            (ngModelChange)="joinCode.set($event)"
+          />
+          <button class="btn-secondary join-btn" type="button" [disabled]="!connected()" (click)="joinRoom()">
+            <span class="material-icons">login</span>
+            Entrar
+          </button>
+        </article>
+      </div>
+    </section>
+  } @else {
+    <section class="duel-grid animate-slide-up">
+      <article class="card board-card">
+        <div class="board-head">
+          <h2>Sala {{ state()!.roomCode }}</h2>
+          <span class="chip">{{ state()!.status }}</span>
+        </div>
+
+        <div class="players-row">
+          @for (player of state()!.players; track player.userId) {
+            <div class="player-pill" [class.me]="isCurrentUser(player.userId)">
+              <span class="material-icons">{{ player.avatarEmoji }}</span>
+              <div>
+                <strong>{{ player.displayName }}</strong>
+                <small>{{ player.score }} pts</small>
+              </div>
+            </div>
+          }
+        </div>
+
+        @if (state()!.status === 'waiting') {
+          <div class="waiting-panel">
+            <p>Esperando al segundo jugador para empezar.</p>
+            @if (isHost()) {
+              <button class="btn-primary" [disabled]="!state()!.canStart" (click)="startRoom()">
+                <span class="material-icons">flag</span>
+                Iniciar duelo
+              </button>
+            }
+          </div>
+        }
+
+        @if (state()!.status === 'active' && state()!.currentQuestion) {
+          <div class="question-block">
+            <div class="question-head">
+              <span>Pregunta {{ state()!.currentQuestionIndex + 1 }} / {{ state()!.totalQuestions }}</span>
+            </div>
+
+            <h3>{{ state()!.currentQuestion!.question }}</h3>
+
+            <div class="options-grid">
+              @for (option of state()!.currentQuestion!.options; track option; let index = $index) {
+                <button
+                  type="button"
+                  class="option-btn"
+                  [disabled]="answeredQuestionId() === state()!.currentQuestion!.id"
+                  (click)="answer(index)"
+                >
+                  {{ option }}
+                </button>
+              }
+            </div>
+          </div>
+        }
+
+        @if (state()!.status === 'finished') {
+          <div class="finish-panel">
+            <h3><span class="material-icons">emoji_events</span> Resultado final</h3>
+            <p>Ganador: <strong>{{ winnerName() }}</strong></p>
+            <p>Vuelve al lobby para crear una nueva sala.</p>
+          </div>
+        }
+      </article>
+
+      <aside class="card help-card">
+        <h3><span class="material-icons">info</span> Reglas</h3>
+        <ul>
+          <li>2 jugadores por sala.</li>
+          <li>5 preguntas por duelo.</li>
+          <li>Puntos por acierto + bonus de velocidad.</li>
+          <li>La puntuación del duelo suma al ranking general.</li>
+        </ul>
+      </aside>
+    </section>
+  }
+</div>

@@ -1,0 +1,25 @@
+@if (state(); as dialog) {
+  <section class="confirm-overlay" role="dialog" aria-modal="true" (click)="cancel()">
+    <article class="confirm-modal" (click)="$event.stopPropagation()">
+      <header>
+        <h3>{{ dialog.title }}</h3>
+      </header>
+      <p>{{ dialog.message }}</p>
+      <footer>
+        <button type="button" class="btn-outline" (click)="cancel()">
+          <span class="material-icons">close</span>
+          <span>{{ dialog.cancelText }}</span>
+        </button>
+        <button
+          type="button"
+          class="btn-primary"
+          [class.danger]="dialog.tone === 'danger'"
+          (click)="confirm()"
+        >
+          <span class="material-icons">{{ dialog.tone === 'danger' ? 'delete' : 'check' }}</span>
+          <span>{{ dialog.confirmText }}</span>
+        </button>
+      </footer>
+    </article>
+  </section>
+}

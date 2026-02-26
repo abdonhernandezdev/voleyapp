@@ -1,0 +1,71 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: voley_db
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-voley_app}
+      POSTGRES_USER: ${DATABASE_USER:-voley_user}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-voley_pass}
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DATABASE_USER:-voley_user} -d ${DATABASE_NAME:-voley_app}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: voley_backend
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      DATABASE_HOST: postgres
+      DATABASE_PORT: ${DATABASE_PORT:-5432}
+      DATABASE_NAME: ${DATABASE_NAME:-voley_app}
+      DATABASE_USER: ${DATABASE_USER:-voley_user}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-voley_pass}
+      DB_SYNCHRONIZE: ${DB_SYNCHRONIZE:-false}
+      DB_MIGRATIONS_RUN: ${DB_MIGRATIONS_RUN:-true}
+      JWT_SECRET: ${JWT_SECRET:-dev_only_change_this_jwt_secret}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+      JWT_ISSUER: ${JWT_ISSUER:-voley-app-backend}
+      JWT_AUDIENCE: ${JWT_AUDIENCE:-voley-app-clients}
+      AUTH_COOKIE_NAME: ${AUTH_COOKIE_NAME:-voley_access_token}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:4200,http://localhost:80}
+      RATE_LIMIT_GLOBAL_TTL_MS: ${RATE_LIMIT_GLOBAL_TTL_MS:-60000}
+      RATE_LIMIT_GLOBAL_LIMIT: ${RATE_LIMIT_GLOBAL_LIMIT:-120}
+      RATE_LIMIT_AUTH_TTL_MS: ${RATE_LIMIT_AUTH_TTL_MS:-60000}
+      RATE_LIMIT_AUTH_LIMIT: ${RATE_LIMIT_AUTH_LIMIT:-8}
+      NOTIFICATIONS_EMAIL_PROVIDER: ${NOTIFICATIONS_EMAIL_PROVIDER:-log}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      NOTIFICATIONS_FROM_EMAIL: ${NOTIFICATIONS_FROM_EMAIL:-VoleyPlay <no-reply@voleyplay.local>}
+      NOTIFICATIONS_APP_URL: ${NOTIFICATIONS_APP_URL:-http://localhost:4200}
+      STREAK_REMINDER_AUTOSEND_ENABLED: ${STREAK_REMINDER_AUTOSEND_ENABLED:-false}
+      STREAK_REMINDER_CRON: ${STREAK_REMINDER_CRON:-0 19 * * *}
+      NOTIFICATIONS_TIMEZONE: ${NOTIFICATIONS_TIMEZONE:-Europe/Madrid}
+      PORT: ${PORT:-3000}
+    ports:
+      - '3000:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: voley_frontend
+    ports:
+      - '4200:80'
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

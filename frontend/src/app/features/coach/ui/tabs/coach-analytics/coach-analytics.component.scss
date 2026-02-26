@@ -1,0 +1,115 @@
+// ─── Analytics Tab ────────────────────────────────────────────────────────────
+
+.analytics-controls { margin-bottom: 12px; }
+
+.analytics-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 12px;
+}
+
+.analytics-card {
+  border: 1px solid var(--color-slate-300);
+  border-radius: 14px;
+  background: #fff;
+  padding: 12px;
+
+  h3    { font-size: 24px; font-weight: 900; }
+  small { color: #6e7787; }
+}
+
+.analytics-values {
+  margin-top: 10px;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  div {
+    border: 1px solid var(--color-slate-200);
+    border-radius: 10px;
+    padding: 8px;
+    background: #f9fbff;
+    display: grid;
+    gap: 2px;
+  }
+
+  span   { color: #606c7f; font-size: 12px; }
+  strong { font-size: 16px; font-weight: 900; }
+}
+
+.analytics-sections {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sub-card { background: #fff; }
+
+.sub-card h3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.weekly-list { display: grid; gap: 7px; }
+
+.weekly-row {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 92px minmax(0, 1fr) 120px;
+  align-items: center;
+}
+
+.week-label { font-size: 12px; color: #596477; }
+
+.weekly-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: #d8deea;
+  overflow: hidden;
+}
+
+.weekly-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #de0a31, #860416);
+}
+
+.week-meta { text-align: right; font-size: 12px; color: #4f5a6f; }
+
+.weak-grid { display: grid; gap: 8px; }
+
+.weak-item {
+  border: 1px solid var(--color-slate-200);
+  border-radius: 10px;
+  padding: 10px;
+  display: grid;
+  gap: 2px;
+  background: #f9fbff;
+
+  span  { color: #911428; font-size: 13px; font-weight: 700; }
+  small { color: #6f788a; font-size: 12px; }
+}
+
+// ─── Responsive ───────────────────────────────────────────────────────────────
+
+@media (max-width: 1180px) {
+  .analytics-sections { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px) {
+  .analytics-grid   { grid-template-columns: 1fr; }
+  .analytics-values { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .weekly-row {
+    grid-template-columns: 82px minmax(0, 1fr);
+  }
+
+  .week-meta {
+    grid-column: 1 / -1;
+    text-align: left;
+  }
+}

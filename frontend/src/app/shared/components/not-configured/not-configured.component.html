@@ -1,0 +1,13 @@
+<div class="not-configured card animate-slide-up">
+  @if (showBack) {
+    <button class="btn-outline" type="button" (click)="back.emit()">
+      <span class="material-icons">arrow_back</span> Volver
+    </button>
+  }
+  <div class="nc-body">
+    <span class="material-icons nc-icon">warning</span>
+    <h2>Juego no disponible</h2>
+    <p>El entrenador aun no ha configurado las zonas para <strong>{{ gameName }}</strong>.</p>
+    <a class="btn-outline" routerLink="/dashboard">Volver al inicio</a>
+  </div>
+</div>

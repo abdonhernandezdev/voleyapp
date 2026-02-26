@@ -1,0 +1,6 @@
+export const SCORING = {
+  BASE_POINTS: 100,
+  TIME_BONUS: 50,
+  TIME_BONUS_THRESHOLD_SECONDS: 10,
+  STREAK_BONUS: 20,
+} as const;

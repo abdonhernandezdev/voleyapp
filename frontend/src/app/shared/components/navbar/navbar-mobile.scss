@@ -1,0 +1,121 @@
+@media (max-width: 980px) {
+  .topbar {
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 24px rgba(7, 8, 10, 0.3);
+  }
+
+  .topbar-inner {
+    width: 100%;
+    height: auto;
+    padding: 10px 12px;
+    grid-template-rows: none;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brand-copy strong { font-size: 21px; }
+  .brand-copy small  { font-size: 10px; }
+
+  .desktop-nav { display: none; }
+
+  .desktop-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .points-pill,
+  .user-chip,
+  .desktop-actions > .logout-btn {
+    display: none;
+  }
+
+  .menu-btn { display: inline-flex; }
+
+  .mobile-menu {
+    display: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(11, 14, 19, 0.96);
+    padding: 10px 12px 14px;
+  }
+
+  .mobile-menu.open {
+    display: grid;
+    gap: 12px;
+  }
+
+  .mobile-nav {
+    display: grid;
+    gap: 8px;
+  }
+
+  .mobile-group {
+    display: grid;
+    gap: 8px;
+  }
+
+  .mobile-group-title {
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.86);
+    padding: 8px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .mobile-link {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+
+    .material-icons { font-size: 18px; }
+  }
+
+  .mobile-link.active {
+    border-color: #f76c80;
+    background: linear-gradient(135deg, #d90429 0%, #9f061d 100%);
+  }
+
+  .mobile-link.sub-link {
+    margin-left: 8px;
+    width: calc(100% - 8px);
+  }
+
+  .mobile-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .mobile-footer .points-pill,
+  .mobile-footer .logout-btn {
+    display: inline-flex;
+  }
+
+  .desktop-actions .copyright-note { display: none; }
+
+  .copyright-note.mobile {
+    display: block;
+    text-align: center;
+  }
+}

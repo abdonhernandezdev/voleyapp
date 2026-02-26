@@ -1,0 +1,127 @@
+<section class="grid-single">
+  <article class="card animate-slide-up">
+    <div class="panel-header">
+      <h2><span class="material-icons">insights</span> Analisis por jugador</h2>
+      <div class="panel-actions">
+        <button class="btn-outline compact-btn" type="button" (click)="loadAnalytics()">
+          <span class="material-icons">refresh</span>
+          <span>Actualizar</span>
+        </button>
+        <button class="btn-primary compact-btn" type="button" [disabled]="reportLoading()" (click)="exportPdfReport()">
+          <span class="material-icons">download</span>
+          <span>Exportar PDF</span>
+        </button>
+      </div>
+    </div>
+
+    <form class="inline-grid analytics-controls" [formGroup]="analyticsForm">
+      <label>
+        Jugador
+        <select class="ui-select" formControlName="playerId">
+          <option value="">Selecciona jugador</option>
+          @for (player of players(); track player.id) {
+            <option [value]="player.id">{{ player.displayName }} (&#64;{{ player.username }})</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        Periodo (semanas)
+        <select class="ui-select" formControlName="weeks">
+          @for (week of analyticsWeekOptions; track week) {
+            <option [value]="week">{{ week }} semanas</option>
+          }
+        </select>
+      </label>
+    </form>
+
+    @if (analyticsError()) {
+      <p class="feedback error">{{ analyticsError() }}</p>
+    }
+    @if (reportError()) {
+      <p class="feedback error">{{ reportError() }}</p>
+    }
+
+    @if (loadingAnalytics()) {
+      <div class="loading-state">
+        <span class="material-icons icon-inline spin">hourglass_top</span>
+        <span>Cargando analitica...</span>
+      </div>
+    } @else if (analytics()) {
+      <div class="analytics-grid">
+        <div class="analytics-card">
+          <h3>{{ analytics()!.player.displayName }}</h3>
+          <small>&#64;{{ analytics()!.player.username }}</small>
+          <div class="analytics-values">
+            <div>
+              <span>Puntos</span>
+              <strong>{{ analytics()!.player.totalPoints }}</strong>
+            </div>
+            <div>
+              <span>Partidas</span>
+              <strong>{{ analytics()!.player.gamesPlayed }}</strong>
+            </div>
+            <div>
+              <span>Racha</span>
+              <strong>{{ analytics()!.player.streak }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="analytics-card">
+          <h3>Comparativa equipo</h3>
+          <div class="analytics-values">
+            <div>
+              <span>Ranking puntos</span>
+              <strong>#{{ analytics()!.comparison.pointsRank }}/{{ analytics()!.comparison.teamSize }}</strong>
+            </div>
+            <div>
+              <span>Ranking precision</span>
+              <strong>#{{ analytics()!.comparison.accuracyRank }}/{{ analytics()!.comparison.teamSize }}</strong>
+            </div>
+            <div>
+              <span>Media equipo</span>
+              <strong>{{ analytics()!.comparison.averageTeamAccuracy }}%</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="analytics-sections">
+        <article class="card sub-card">
+          <h3><span class="material-icons">timeline</span> Evolucion semanal</h3>
+          <div class="weekly-list">
+            @for (week of analytics()!.weeklyEvolution; track week.weekStart) {
+              <div class="weekly-row">
+                <div class="week-label">{{ week.weekStart }}</div>
+                <div class="weekly-bar">
+                  <div class="weekly-fill" [style.width.%]="getWeeklyBarPercent(week.points)"></div>
+                </div>
+                <div class="week-meta">{{ week.points }} pts · {{ week.accuracy }}%</div>
+              </div>
+            }
+          </div>
+        </article>
+
+        <article class="card sub-card">
+          <h3><span class="material-icons">rule</span> Categorias a reforzar</h3>
+          @if (analytics()!.weakCategories.length === 0) {
+            <p class="feedback">Aun no hay datos suficientes por categoria.</p>
+          } @else {
+            <div class="weak-grid">
+              @for (item of analytics()!.weakCategories; track item.category) {
+                <div class="weak-item">
+                  <strong>{{ getCategoryLabel(item.category) }}</strong>
+                  <span>{{ item.accuracy }}% acierto</span>
+                  <small>{{ item.sessions }} sesiones</small>
+                </div>
+              }
+            </div>
+          }
+        </article>
+      </div>
+    } @else {
+      <p class="feedback">Selecciona jugador y periodo para cargar analitica.</p>
+    }
+  </article>
+</section>

@@ -1,0 +1,88 @@
+@use 'styles/volleyball-field' as *;
+@use 'styles/game-layout' as *;
+
+// ─── System selection screen ──────────────────────────────────────────────────
+
+.selecting {
+  max-width: 860px;
+  margin: 0 auto;
+  display: grid;
+  gap: 14px;
+}
+
+.selecting h2 { font-size: 22px; font-weight: 900; color: #111; }
+
+.system-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.system-card {
+  border: 2px solid #e0e0e0;
+  border-radius: 14px;
+  padding: 16px;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  display: grid;
+  gap: 5px;
+}
+
+.system-card:hover {
+  border-color: #c8102e;
+  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.12);
+}
+
+.system-card h3 { font-size: 18px; font-weight: 900; color: #111; margin: 0; }
+.system-card p  { font-size: 13px; color: #444; margin: 0; }
+
+.sys-badge { font-size: 28px; font-weight: 900; color: #c8102e; }
+.sys-roles { font-size: 11px; color: #666; font-weight: 700; }
+
+// ─── Setup screen ─────────────────────────────────────────────────────────────
+
+.setup-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.system-active-badge {
+  background: #c8102e;
+  color: #fff;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.setup {
+  max-width: 680px;
+  margin: 0 auto;
+  display: grid;
+  gap: 8px;
+}
+
+.setup h2 { font-size: 22px; font-weight: 900; }
+
+.setup ul { list-style: none; display: grid; gap: 3px; }
+
+.setup li::before { content: '• '; color: #b80d1a; font-weight: 800; }
+
+// ─── Playing screen — token role overrides ────────────────────────────────────
+
+.token.atacante { background: #1565c0; border-color: #0d47a1; }
+.chip.atacante  { background: #1565c0; border-color: #0d47a1; }
+
+// Bench player list spacing
+.list { display: grid; gap: 7px; }
+
+// ─── Responsive ───────────────────────────────────────────────────────────────
+
+@media (max-width: 680px) {
+  .system-grid { grid-template-columns: 1fr; }
+}

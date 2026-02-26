@@ -1,0 +1,141 @@
+<div class="page-container coach-page">
+  <header class="coach-header card animate-slide-up">
+    <div>
+      <h1><span class="material-icons">sports</span> Centro de entrenador</h1>
+      <p>Gestiona contenidos del equipo, asigna tareas y revisa rendimiento individual.</p>
+    </div>
+
+    <div class="header-kpis">
+      <div class="kpi-chip">
+        <span class="material-icons">groups</span>
+        <div>
+          <strong>{{ playerCount() }}</strong>
+          <small>Jugadores</small>
+        </div>
+      </div>
+      <div class="kpi-chip">
+        <span class="material-icons">help</span>
+        <div>
+          <strong>{{ customQuestionCount() }}</strong>
+          <small>Preguntas custom</small>
+        </div>
+      </div>
+      <div class="kpi-chip">
+        <span class="material-icons">assignment_turned_in</span>
+        <div>
+          <strong>{{ assignmentCompletion() }}%</strong>
+          <small>Cumplimiento medio</small>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="summary-grid animate-slide-up">
+    <div class="summary-card card">
+      <div class="sum-icon"><span class="material-icons">groups</span></div>
+      <div class="sum-val">{{ playerCount() }}</div>
+      <div class="sum-lbl">Jugadores registrados</div>
+    </div>
+    <div class="summary-card card">
+      <div class="sum-icon"><span class="material-icons">star</span></div>
+      <div class="sum-val">{{ totalPoints() }}</div>
+      <div class="sum-lbl">Puntos del equipo</div>
+    </div>
+    <div class="summary-card card">
+      <div class="sum-icon"><span class="material-icons">sports_esports</span></div>
+      <div class="sum-val">{{ totalGames() }}</div>
+      <div class="sum-lbl">Partidas jugadas</div>
+    </div>
+    <div class="summary-card card">
+      <div class="sum-icon"><span class="material-icons">track_changes</span></div>
+      <div class="sum-val">{{ teamAccuracy() }}%</div>
+      <div class="sum-lbl">Precision media</div>
+    </div>
+  </div>
+
+  <nav class="coach-tabs card animate-slide-up">
+    <button
+      class="tab-btn"
+      [class.active]="activeTab() === 'players'"
+      (click)="setTab('players')"
+      type="button"
+    >
+      <span class="material-icons">groups</span>
+      <span>Jugadores</span>
+    </button>
+
+    <button
+      class="tab-btn"
+      [class.active]="activeTab() === 'questions'"
+      (click)="setTab('questions')"
+      type="button"
+    >
+      <span class="material-icons">quiz</span>
+      <span>Preguntas</span>
+    </button>
+
+    <button
+      class="tab-btn"
+      [class.active]="activeTab() === 'assignments'"
+      (click)="setTab('assignments')"
+      type="button"
+    >
+      <span class="material-icons">assignment</span>
+      <span>Asignaciones</span>
+    </button>
+
+    <button
+      class="tab-btn"
+      [class.active]="activeTab() === 'analytics'"
+      (click)="setTab('analytics')"
+      type="button"
+    >
+      <span class="material-icons">insights</span>
+      <span>Analitica</span>
+    </button>
+
+    <button
+      class="tab-btn"
+      [class.active]="activeTab() === 'rewards'"
+      (click)="setTab('rewards')"
+      type="button"
+    >
+      <span class="material-icons">redeem</span>
+      <span>Recompensas</span>
+    </button>
+
+    <button
+      class="tab-btn"
+      [class.active]="activeTab() === 'formations'"
+      (click)="setTab('formations')"
+      type="button"
+    >
+      <span class="material-icons">grid_on</span>
+      <span>Formaciones</span>
+    </button>
+  </nav>
+
+  @if (activeTab() === 'players') {
+    <app-coach-players />
+  }
+
+  @if (activeTab() === 'questions') {
+    <app-coach-questions />
+  }
+
+  @if (activeTab() === 'assignments') {
+    <app-coach-assignments />
+  }
+
+  @if (activeTab() === 'analytics') {
+    <app-coach-analytics />
+  }
+
+  @if (activeTab() === 'rewards') {
+    <app-coach-rewards />
+  }
+
+  @if (activeTab() === 'formations') {
+    <app-coach-formations />
+  }
+</div>

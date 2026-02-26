@@ -1,0 +1,130 @@
+<section class="card animate-slide-up">
+  <nav class="coach-tabs" style="margin-bottom: 16px;">
+    <button class="tab-btn" [class.active]="rewardView() === 'rewards'" (click)="setRewardView('rewards')" type="button">
+      <span class="material-icons">storefront</span><span>Mis Recompensas</span>
+    </button>
+    <button class="tab-btn" [class.active]="rewardView() === 'redemptions'" (click)="setRewardView('redemptions')" type="button">
+      <span class="material-icons">receipt_long</span><span>Canjes Pendientes</span>
+    </button>
+  </nav>
+
+  @if (rewardView() === 'rewards') {
+    <div class="panel-header">
+      <h2><span class="material-icons">{{ editingRewardId() ? 'edit' : 'add_circle' }}</span> {{ editingRewardId() ? 'Editar recompensa' : 'Nueva recompensa' }}</h2>
+    </div>
+
+    <form class="coach-form" [formGroup]="rewardForm" (ngSubmit)="submitReward()">
+      <label>Nombre <input type="text" formControlName="name" /></label>
+      <label>Descripcion (opcional) <textarea rows="2" formControlName="description"></textarea></label>
+      <div class="inline-grid">
+        <label>Coste en puntos <input type="number" formControlName="pointCost" min="1" /></label>
+        <label>Stock (vacio = ilimitado) <input type="number" formControlName="stock" min="0" placeholder="Ilimitado" /></label>
+      </div>
+      @if (editingRewardId()) {
+        <label class="toggle-label">
+          <input type="checkbox" formControlName="isActive" />
+          <span>Recompensa activa</span>
+        </label>
+      }
+      <div class="form-actions">
+        <button class="btn-primary" type="submit">
+          <span class="material-icons">{{ editingRewardId() ? 'save' : 'add' }}</span>
+          <span>{{ editingRewardId() ? 'Guardar' : 'Crear' }}</span>
+        </button>
+        @if (editingRewardId()) {
+          <button class="btn-outline" type="button" (click)="cancelRewardEdit()">
+            <span class="material-icons">close</span><span>Cancelar</span>
+          </button>
+        }
+      </div>
+    </form>
+
+    <div style="margin-top: 16px;">
+      <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 8px;">Recompensas creadas</h3>
+      @if (rewardsFacade.loadingCoachRewards()) {
+        <div class="loading-state">
+          <span class="material-icons icon-inline spin">hourglass_top</span><span>Cargando...</span>
+        </div>
+      } @else if (rewardsFacade.coachRewards().length === 0) {
+        <p class="feedback">Aun no has creado ninguna recompensa.</p>
+      } @else {
+        <div class="question-list">
+          @for (reward of rewardsFacade.coachRewards(); track reward.id) {
+            <article class="question-card" [class.inactive]="!reward.isActive">
+              <header>
+                <div class="question-badges">
+                  <span class="tag">{{ reward.pointCost }} pts</span>
+                  <span class="tag soft">{{ reward.stock === null ? 'Sin limite' : (reward.stockAvailable ?? 0) + '/' + reward.stock + ' disponibles' }}</span>
+                  <span class="tag" [class.soft]="!reward.isActive">{{ reward.isActive ? 'Activa' : 'Inactiva' }}</span>
+                </div>
+                <div class="question-actions">
+                  <button class="icon-btn" type="button" (click)="startEditReward(reward)" title="Editar">
+                    <span class="material-icons">edit</span>
+                  </button>
+                  @if (reward.isActive) {
+                    <button class="icon-btn" type="button" (click)="deactivateReward(reward.id)" title="Desactivar">
+                      <span class="material-icons">block</span>
+                    </button>
+                  }
+                </div>
+              </header>
+              <h3>{{ reward.name }}</h3>
+              @if (reward.description) {
+                <p class="small-copy">{{ reward.description }}</p>
+              }
+              <footer>
+                <span>{{ reward.stats.redeemed }} canjes totales</span>
+                <span>{{ reward.stats.pending }} pendientes</span>
+                <span>{{ reward.stats.delivered }} entregados</span>
+              </footer>
+            </article>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @if (rewardView() === 'redemptions') {
+    <div class="panel-header">
+      <h2><span class="material-icons">receipt_long</span> Canjes de mis recompensas</h2>
+      <button class="btn-outline compact-btn" type="button" (click)="setRewardView('redemptions')">
+        <span class="material-icons">refresh</span><span>Recargar</span>
+      </button>
+    </div>
+    @if (rewardsFacade.loadingCoachRedemptions()) {
+      <div class="loading-state">
+        <span class="material-icons icon-inline spin">hourglass_top</span><span>Cargando...</span>
+      </div>
+    } @else if (rewardsFacade.coachRedemptions().length === 0) {
+      <p class="feedback">No hay canjes todavia.</p>
+    } @else {
+      <div class="assignment-list">
+        @for (redemption of rewardsFacade.coachRedemptions(); track redemption.id) {
+          <article class="assignment-card">
+            <header>
+              <h3>{{ redemption.reward?.name || 'Recompensa' }} — {{ redemption.player?.displayName || redemption.playerId }}</h3>
+              <div class="assignment-actions">
+                @if (redemption.status === 'pending') {
+                  <button class="icon-btn" type="button" (click)="deliverRedemption(redemption.id)" title="Marcar como entregado">
+                    <span class="material-icons">check_circle</span>
+                  </button>
+                  <button class="icon-btn danger" type="button" (click)="cancelRedemption(redemption.id)" title="Cancelar">
+                    <span class="material-icons">cancel</span>
+                  </button>
+                }
+              </div>
+            </header>
+            <div class="assignment-meta">
+              <span class="tag">{{ redemption.pointsSpent }} pts gastados</span>
+              <span class="tag soft">{{ formatRedemptionDate(redemption.redeemedAt) }}</span>
+              <span class="tag" [class.soft]="redemption.status !== 'pending'">{{ statusLabel(redemption.status) }}</span>
+            </div>
+            @if (redemption.notes) {
+              <p class="small-copy">{{ redemption.notes }}</p>
+            }
+          </article>
+        }
+      </div>
+    }
+  }
+</section>

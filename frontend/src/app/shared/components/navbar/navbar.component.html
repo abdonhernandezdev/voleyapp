@@ -1,0 +1,225 @@
+<header class="topbar">
+  <div class="topbar-inner">
+    <a routerLink="/dashboard" class="brand" (click)="closeMenu()">
+      <span class="brand-icon">
+        <img src="assets/voleyplay_logo.png" alt="" aria-hidden="true" />
+      </span>
+      <span class="brand-copy">
+        <strong>VoleyPlay</strong>
+        <small>Tactica de voley infantil</small>
+      </span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Navegacion principal">
+      <a routerLink="/dashboard" routerLinkActive="active" class="top-link">
+        <span class="material-icons">home</span>
+        <span>Inicio</span>
+      </a>
+
+      <div class="menu-group" routerLinkActive="active">
+        <button
+          type="button"
+          class="top-link games-trigger"
+          aria-haspopup="true"
+          aria-label="Abrir menu de juegos"
+        >
+          <span class="material-icons">sports_esports</span>
+          <span>Juegos</span>
+          <span class="material-icons trigger-arrow">chevron_right</span>
+        </button>
+
+        <div class="games-flyout">
+          <div class="games-column">
+            <button
+              type="button"
+              class="group-link"
+              aria-haspopup="true"
+              aria-label="Abrir submenu de juegos generales"
+            >
+              <span class="material-icons">public</span>
+              <span>Generales</span>
+              <span class="material-icons">chevron_right</span>
+            </button>
+            <div class="games-submenu">
+              <a routerLink="/game/quiz" routerLinkActive="active" class="submenu-link">
+                <span class="material-icons">quiz</span>
+                <span>Quiz tecnico</span>
+              </a>
+              <a routerLink="/game/field-challenge" routerLinkActive="active" class="submenu-link">
+                <span class="material-icons">shield</span>
+                <span>Defensa por zona</span>
+              </a>
+              <a routerLink="/game/rotation" routerLinkActive="active" class="submenu-link">
+                <span class="material-icons">sync_alt</span>
+                <span>Simulador Recepcion</span>
+              </a>
+              <a routerLink="/game/duel" routerLinkActive="active" class="submenu-link">
+                <span class="material-icons">sports_kabaddi</span>
+                <span>Duelo 1v1</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="games-column">
+            <button
+              type="button"
+              class="group-link"
+              aria-haspopup="true"
+              aria-label="Abrir submenu de juegos individuales"
+            >
+              <span class="material-icons">person</span>
+              <span>Individuales</span>
+              <span class="material-icons">chevron_right</span>
+            </button>
+            <div class="games-submenu">
+              <a routerLink="/game/role-reception" routerLinkActive="active" class="submenu-link">
+                <span class="material-icons">person_pin_circle</span>
+                <span>Recepcion por rol</span>
+              </a>
+              <a routerLink="/game/role-defense" routerLinkActive="active" class="submenu-link">
+                <span class="material-icons">sports_martial_arts</span>
+                <span>Defensa por rol</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a routerLink="/rewards" routerLinkActive="active" class="top-link">
+        <span class="material-icons">redeem</span>
+        <span>Recompensas</span>
+      </a>
+      <a routerLink="/ranking" routerLinkActive="active" class="top-link">
+        <span class="material-icons">leaderboard</span>
+        <span>Ranking</span>
+      </a>
+      <a routerLink="/profile" routerLinkActive="active" class="top-link">
+        <span class="material-icons">person</span>
+        <span>Perfil</span>
+      </a>
+      @if (isCoach()) {
+        <a routerLink="/coach" routerLinkActive="active" class="top-link coach-link">
+          <span class="material-icons">sports</span>
+          <span>Entrenador</span>
+        </a>
+      }
+    </nav>
+
+    <div class="desktop-actions">
+      <div class="points-pill">
+        <span class="material-icons">star</span>
+        <span>{{ user()?.totalPoints || 0 }} pts</span>
+      </div>
+
+      <div class="user-chip">
+        <span class="user-initial">{{ userInitial() }}</span>
+        <div class="user-copy">
+          <strong>{{ user()?.displayName || user()?.username || 'Jugador' }}</strong>
+          <small>{{ isCoach() ? 'Entrenador' : 'Jugador' }}</small>
+        </div>
+      </div>
+
+      <button class="logout-btn" type="button" (click)="logout()">
+        <span class="material-icons">logout</span>
+        <span>Salir</span>
+      </button>
+
+      <button
+        class="menu-btn"
+        type="button"
+        aria-label="Abrir menu principal"
+        [attr.aria-expanded]="menuOpen()"
+        aria-controls="mobile-primary-menu"
+        (click)="toggleMenu()"
+      >
+        <span class="material-icons">{{ menuOpen() ? 'close' : 'menu' }}</span>
+      </button>
+
+      <small class="copyright-note">
+        © 2026 Abdón Hernández Perera
+      </small>
+    </div>
+  </div>
+
+  <div id="mobile-primary-menu" class="mobile-menu" [class.open]="menuOpen()">
+    <nav class="mobile-nav" aria-label="Navegacion movil">
+      <a routerLink="/dashboard" routerLinkActive="active" class="mobile-link" (click)="closeMenu()">
+        <span class="material-icons">home</span>
+        <span>Inicio</span>
+      </a>
+
+      <div class="mobile-group">
+        <div class="mobile-group-title">
+          <span class="material-icons">public</span>
+          <span>Juegos generales</span>
+        </div>
+        <a routerLink="/game/quiz" routerLinkActive="active" class="mobile-link sub-link" (click)="closeMenu()">
+          <span class="material-icons">quiz</span>
+          <span>Quiz tecnico</span>
+        </a>
+        <a routerLink="/game/field-challenge" routerLinkActive="active" class="mobile-link sub-link" (click)="closeMenu()">
+          <span class="material-icons">shield</span>
+          <span>Defensa por zona</span>
+        </a>
+        <a routerLink="/game/rotation" routerLinkActive="active" class="mobile-link sub-link" (click)="closeMenu()">
+          <span class="material-icons">sync_alt</span>
+          <span>Simulador Recepcion</span>
+        </a>
+        <a routerLink="/game/duel" routerLinkActive="active" class="mobile-link sub-link" (click)="closeMenu()">
+          <span class="material-icons">sports_kabaddi</span>
+          <span>Duelo 1v1</span>
+        </a>
+      </div>
+
+      <div class="mobile-group">
+        <div class="mobile-group-title">
+          <span class="material-icons">person</span>
+          <span>Juegos individuales</span>
+        </div>
+        <a routerLink="/game/role-reception" routerLinkActive="active" class="mobile-link sub-link" (click)="closeMenu()">
+          <span class="material-icons">person_pin_circle</span>
+          <span>Recepcion por rol</span>
+        </a>
+        <a routerLink="/game/role-defense" routerLinkActive="active" class="mobile-link sub-link" (click)="closeMenu()">
+          <span class="material-icons">sports_martial_arts</span>
+          <span>Defensa por rol</span>
+        </a>
+      </div>
+
+      <a routerLink="/rewards" routerLinkActive="active" class="mobile-link" (click)="closeMenu()">
+        <span class="material-icons">redeem</span>
+        <span>Recompensas</span>
+      </a>
+      <a routerLink="/ranking" routerLinkActive="active" class="mobile-link" (click)="closeMenu()">
+        <span class="material-icons">leaderboard</span>
+        <span>Ranking</span>
+      </a>
+      <a routerLink="/profile" routerLinkActive="active" class="mobile-link" (click)="closeMenu()">
+        <span class="material-icons">person</span>
+        <span>Perfil</span>
+      </a>
+      @if (isCoach()) {
+        <a routerLink="/coach" routerLinkActive="active" class="mobile-link coach-link" (click)="closeMenu()">
+          <span class="material-icons">sports</span>
+          <span>Entrenador</span>
+        </a>
+      }
+    </nav>
+
+    <div class="mobile-footer">
+      <div class="points-pill">
+        <span class="material-icons">star</span>
+        <span>{{ user()?.totalPoints || 0 }} pts</span>
+      </div>
+
+      <button class="logout-btn" type="button" (click)="logout()">
+        <span class="material-icons">logout</span>
+        <span>Salir</span>
+      </button>
+    </div>
+
+    <small class="copyright-note mobile">
+      © 2026 Abdón Hernández Perera
+    </small>
+  </div>
+</header>

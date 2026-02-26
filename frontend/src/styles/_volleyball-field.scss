@@ -1,0 +1,199 @@
+// ─── Volleyball Field Shared Styles ─────────────────────────────────────────
+// Imported by: rotation-sim, role-reception, role-defense
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Field canvas
+.field {
+  position: relative;
+  aspect-ratio: 1.2 / 1;
+  border: 2px solid #c4c4c4;
+  border-radius: 14px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #fefefe 0%, #f5f5f5 100%);
+  cursor: crosshair;
+  touch-action: manipulation;
+}
+
+.net {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 8%;
+  height: 8px;
+  background: repeating-linear-gradient(90deg, #222 0 12px, #444 12px 20px);
+}
+
+.line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 38%;
+  border-top: 2px dashed rgba(184, 13, 26, 0.4);
+}
+
+// Zone labels (Z1–Z6)
+.zone {
+  position: absolute;
+  font-size: 11px;
+  font-weight: 800;
+  color: #666;
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 9px;
+  padding: 2px 6px;
+}
+
+.z4 { left: 11%; top: 18%; }
+.z3 { left: 45%; top: 18%; }
+.z2 { left: 79%; top: 18%; }
+.z5 { left: 11%; top: 57%; }
+.z6 { left: 45%; top: 57%; }
+.z1 { left: 79%; top: 57%; }
+
+// Draggable tokens
+.token {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  min-width: 104px;
+  max-width: 130px;
+  border-radius: 11px;
+  border: 2px solid transparent;
+  padding: 6px 8px;
+  text-align: center;
+  color: #fff;
+  cursor: grab;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.token strong { display: block; font-size: 12px; }
+.token small   { font-size: 9px; text-transform: uppercase; }
+
+.token.front  { background: #c8102e; border-color: #8f0a1b; }
+.token.back   { background: #151515; border-color: #000; }
+.token.setter { background: #fff; color: #111; border-color: #c8102e; border-width: 3px; }
+.token.ok     { box-shadow: 0 0 0 3px rgba(47, 164, 87, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2); z-index: 3; }
+.token.ko     { box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.45), 0 2px 8px rgba(0, 0, 0, 0.2); z-index: 3; }
+
+// Ghost (locked) reference tokens
+.locked-token {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  min-width: 98px;
+  max-width: 124px;
+  border-radius: 11px;
+  border: 2px dashed transparent;
+  padding: 5px 7px;
+  text-align: center;
+  color: #fff;
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.locked-token strong { display: block; font-size: 11px; }
+.locked-token small  { font-size: 8px; text-transform: uppercase; }
+
+.locked-token.front  { background: #c8102e; border-color: #8f0a1b; }
+.locked-token.back   { background: #151515; border-color: #000; }
+.locked-token.setter { background: #fff; color: #111; border-color: #c8102e; }
+
+// Sidebar chips (bench player list)
+.chip {
+  border-radius: 10px;
+  border: 2px solid transparent;
+  padding: 8px;
+  text-align: left;
+  color: #fff;
+  cursor: pointer;
+}
+
+.chip strong { display: block; font-size: 12px; }
+.chip small  { font-size: 10px; text-transform: uppercase; }
+
+.chip.front    { background: #c8102e; border-color: #8f0a1b; }
+.chip.back     { background: #151515; border-color: #000; }
+.chip.setter   { background: #fff; color: #111; border-color: #c8102e; border-width: 3px; }
+.chip.selected { box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.22); }
+.chip.placed   { opacity: 0.7; }
+
+// Bench sidebar
+.bench {
+  border: 2px solid #e1e1e1;
+  border-radius: 12px;
+  padding: 10px;
+  background: #fff;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.bench h3 { font-size: 17px; font-weight: 800; color: #111; }
+
+// In-round feedback box
+.feedback {
+  border: 2px solid #dfdfdf;
+  border-radius: 10px;
+  background: #fafafa;
+  padding: 10px;
+  display: grid;
+  gap: 6px;
+}
+
+.feedback h4 { font-size: 20px; font-weight: 900; color: #111; }
+.feedback p  { font-size: 14px; color: #333; }
+
+// ─── Responsive ──────────────────────────────────────────────────────────────
+
+@media (max-width: 700px) {
+  .field { aspect-ratio: 1 / 1; }
+
+  .token {
+    min-width: 72px;
+    max-width: 90px;
+    padding: 4px 5px;
+  }
+
+  .token strong { font-size: 9px; }
+  .token small  { font-size: 7px; }
+
+  .locked-token {
+    min-width: 66px;
+    max-width: 84px;
+    padding: 4px;
+  }
+}
+
+@media (max-width: 430px) {
+  .token {
+    min-width: 64px;
+    max-width: 80px;
+    padding: 4px;
+  }
+
+  .token strong { font-size: 8px; }
+  .token small  { font-size: 6px; }
+
+  .locked-token {
+    min-width: 58px;
+    max-width: 74px;
+    padding: 3px;
+  }
+}
+
+@media (max-width: 390px) {
+  .field { aspect-ratio: 0.95 / 1; }
+
+  .token {
+    min-width: 58px;
+    max-width: 72px;
+    padding: 3px;
+  }
+
+  .token strong { font-size: 7px; }
+  .token small  { font-size: 5px; }
+
+  .locked-token {
+    min-width: 52px;
+    max-width: 66px;
+    padding: 2px;
+  }
+}

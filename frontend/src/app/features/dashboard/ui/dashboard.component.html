@@ -1,0 +1,265 @@
+    <div class="page-container dashboard-page">
+      <section class="hero card animate-slide-up">
+        <div class="hero-top">
+          <div class="hero-intro">
+            <div class="avatar-circle">{{ userInitial() }}</div>
+            <div class="intro-copy">
+              <h1>
+                Hola, {{ user()?.displayName || user()?.username }}
+                <span class="material-icons">waving_hand</span>
+              </h1>
+            </div>
+          </div>
+
+          <a routerLink="/game/quiz" class="hero-cta">
+            <span class="material-icons">play_arrow</span>
+            <span>Entrenar ahora</span>
+          </a>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="material-icons">calendar_today</span>
+              <span>Puntos semanales</span>
+            </div>
+            <div class="stat-value">{{ weeklyPoints() | number }}</div>
+            <div class="stat-sub">Totales: {{ totalPoints() | number }}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="material-icons">sports_esports</span>
+              <span>Partidas</span>
+            </div>
+            <div class="stat-value">{{ user()?.gamesPlayed }}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="material-icons">local_fire_department</span>
+              <span>Racha</span>
+            </div>
+            <div class="stat-value">{{ user()?.streak }}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <span class="material-icons">emoji_events</span>
+              <span>Ranking</span>
+            </div>
+            <div class="stat-value">{{ position() ? '#' + position() : '-' }}</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="dashboard-grid">
+        <section class="games-panel card animate-slide-up">
+          <div class="section-head">
+            <h2><span class="material-icons">sports_esports</span> Plan de juegos</h2>
+            <p>Separado por tipo de juego: generales (mas puntos) e individuales (menos puntos).</p>
+          </div>
+
+          <div class="games-group general-group">
+            <div class="games-group-head">
+              <h3><span class="material-icons">public</span> Juegos generales</h3>
+              <span class="weight-chip high">Mas puntos</span>
+            </div>
+
+            <div class="daily-awards">
+              <h4><span class="material-icons">today</span> Puntuaciones disponibles hoy</h4>
+              <div class="daily-awards-grid">
+                @for (game of generalGames; track game) {
+                  <div class="daily-award-item" [class.exhausted]="getRemainingAwards(game) === '0/2'">
+                    <span class="game-name">{{ getGeneralGameLabel(game) }}</span>
+                    <span class="remaining-badge">{{ getRemainingAwards(game) }}</span>
+                  </div>
+                }
+              </div>
+              @if (generalScoringStatus().length === 0) {
+                <p class="daily-awards-note">No se pudo sincronizar el contador en este momento.</p>
+              }
+            </div>
+
+            <a routerLink="/game/quiz" class="featured-game">
+              <div class="featured-copy">
+                <h3><span class="material-icons">quiz</span> Quiz tecnico</h3>
+                <p>Reglas, lectura de juego, sistema 5-1 y toma de decisiones.</p>
+                <div class="remaining-inline">
+                  Quedan hoy: {{ getRemainingAwards('quiz') }}
+                </div>
+              </div>
+              <span class="material-icons featured-arrow">trending_flat</span>
+            </a>
+
+            <div class="secondary-games">
+              <a routerLink="/game/field-challenge" class="mini-game">
+                <h4><span class="material-icons">shield</span> Defensa por zona</h4>
+                <p>Doble bloqueo salvo ataque rival por zona 3.</p>
+                <span class="mini-remaining">Hoy: {{ getRemainingAwards('defense_zone') }}</span>
+              </a>
+              <a routerLink="/game/rotation" class="mini-game">
+                <h4><span class="material-icons">sync_alt</span> Simulador de recepcion</h4>
+                <p>Sin libero: 2 receptores, 2 centrales, colocador y opuesto.</p>
+                <span class="mini-remaining">Hoy: {{ getRemainingAwards('reception_5_1') }}</span>
+              </a>
+              <a routerLink="/game/duel" class="mini-game">
+                <h4><span class="material-icons">sports_kabaddi</span> Duelo 1v1</h4>
+                <p>Responde en tiempo real contra otro jugador.</p>
+                <span class="mini-remaining">Hoy: {{ getRemainingAwards('duel') }}</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="games-group individual-group">
+            <div class="games-group-head">
+              <h3><span class="material-icons">person</span> Juegos individuales</h3>
+              <span class="weight-chip low">Menos puntos</span>
+            </div>
+
+            <div class="secondary-games individual-games">
+              <a routerLink="/game/role-reception" class="mini-game">
+                <h4><span class="material-icons">person_pin_circle</span> Recepcion por rol</h4>
+                <p>Elige tu posicion y completa las 6 rotaciones.</p>
+              </a>
+              <a routerLink="/game/role-defense" class="mini-game">
+                <h4><span class="material-icons">sports_martial_arts</span> Defensa por rol</h4>
+                <p>Defiende tu rol en 6 rotaciones segun el ataque rival.</p>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <aside class="right-column">
+          <section class="quick-panel card animate-slide-up">
+            <h3><span class="material-icons">bolt</span> Accesos rapidos</h3>
+            <div class="quick-links">
+              <a routerLink="/ranking" class="quick-link">
+                <span class="material-icons">leaderboard</span>
+                <span>Ver ranking</span>
+              </a>
+              <a routerLink="/profile" class="quick-link">
+                <span class="material-icons">person</span>
+                <span>Editar perfil</span>
+              </a>
+              @if (isCoach()) {
+                <a routerLink="/coach" class="quick-link">
+                  <span class="material-icons">sports</span>
+                  <span>Panel entrenador</span>
+                </a>
+              }
+            </div>
+          </section>
+
+          <section class="quick-panel card animate-slide-up">
+            <h3><span class="material-icons">redeem</span> Recompensas</h3>
+            @if (featuredRewards().length > 0) {
+              <div class="reward-list">
+                @for (reward of featuredRewards(); track reward.id) {
+                  <a class="reward-item" routerLink="/rewards">
+                    <div class="reward-main">
+                      <span class="reward-name">{{ reward.name }}</span>
+                      <span class="reward-stock">{{ stockLabel(reward) }}</span>
+                    </div>
+                    <span class="reward-cost">
+                      <span class="material-icons">star</span>
+                      {{ reward.pointCost }}
+                    </span>
+                  </a>
+                }
+              </div>
+            } @else {
+              <p class="achievements-subtitle">No hay recompensas activas ahora mismo.</p>
+            }
+            <a routerLink="/rewards" class="btn-primary">
+              <span class="material-icons">visibility</span>
+              Ver todas
+            </a>
+          </section>
+
+          @if (!isCoach()) {
+            <section class="quick-panel card animate-slide-up">
+              <h3><span class="material-icons">assignment</span> Tarea</h3>
+              @if (playerAssignments().length > 0) {
+                <p class="achievements-subtitle">
+                  {{ pendingAssignments().length }} pendientes / {{ playerAssignments().length }} activas
+                </p>
+                <div class="assignment-list">
+                  @for (assignment of playerAssignments().slice(0, 4); track assignment.id) {
+                    <div class="assignment-item" [class.completed]="assignment.completed">
+                      <div class="assignment-main">
+                        <strong>{{ assignment.title }}</strong>
+                        <small>{{ getAssignmentModeLabel(assignment.mode) }} · {{ assignmentDueLabel(assignment) }}</small>
+                      </div>
+                      <span class="assignment-chip">{{ assignment.completed ? 'Hecha' : 'Pendiente' }}</span>
+                    </div>
+                  }
+                </div>
+                @if (pendingAssignments().length > 0) {
+                  <a routerLink="/game/quiz" class="btn-outline">
+                    <span class="material-icons">play_arrow</span>
+                    Completar ahora
+                  </a>
+                } @else {
+                  <button class="btn-outline" type="button" disabled>
+                    <span class="material-icons">play_arrow</span>
+                    Completar ahora
+                  </button>
+                }
+              } @else {
+                <p class="achievements-subtitle">No tienes asignaciones activas.</p>
+              }
+            </section>
+          }
+
+          <section class="quick-panel card animate-slide-up">
+            <h3><span class="material-icons">military_tech</span> Logros</h3>
+            <p class="achievements-subtitle">
+              {{ unlockedAchievements() }} / {{ achievements().length }} desbloqueados
+            </p>
+
+            @if (achievements().length > 0) {
+              <div class="quick-links">
+                @for (achievement of achievements().slice(0, 4); track achievement.code) {
+                  <div class="quick-link" [class.is-locked]="!achievement.unlocked">
+                    <span class="material-icons">{{ achievement.icon }}</span>
+                    <span>{{ achievement.title }}</span>
+                  </div>
+                }
+              </div>
+            } @else {
+              <p class="achievements-subtitle">Aun no hay logros registrados.</p>
+            }
+          </section>
+        </aside>
+      </div>
+
+      <section class="sessions-panel sessions-wide card animate-slide-up">
+        <h3><span class="material-icons">bar_chart</span> Ultimas partidas</h3>
+
+        @if (recentSessionsLimited().length > 0) {
+          <div class="sessions-list">
+            @for (session of recentSessionsLimited(); track session.id) {
+              <div class="session-item">
+                <div class="session-main">
+                  <span class="session-cat">{{ getCatLabel(session.category) }}</span>
+                  <span class="session-date">{{ session.createdAt | date:'dd/MM HH:mm' }}</span>
+                </div>
+                <div class="session-result">
+                  <span class="score">{{ session.correctAnswers }}/{{ session.totalQuestions }}</span>
+                  <span class="points-badge">
+                    <span class="material-icons icon-inline">star</span>
+                    +{{ session.pointsEarned }}
+                  </span>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="empty-state">
+            <p>Todavia no hay partidas registradas.</p>
+            <a routerLink="/game/quiz" class="btn-primary">
+              <span class="material-icons">play_arrow</span>
+              Empezar quiz
+            </a>
+          </div>
+        }
+      </section>
+    </div>

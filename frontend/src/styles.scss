@@ -1,0 +1,118 @@
+@use '@angular/material' as mat;
+@use 'styles/buttons' as *;
+@use 'styles/form-controls' as *;
+@use 'styles/components' as *;
+@use 'styles/animations' as *;
+
+// ─── Reset ────────────────────────────────────────────────────────────────────
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+// ─── Design Tokens ────────────────────────────────────────────────────────────
+
+:root {
+  --color-red-700: #9f061d;
+  --color-red-600: #cf0828;
+  --color-red-500: #e42440;
+  --color-black-950: #08090b;
+  --color-black-900: #0f1218;
+  --color-black-800: #171c24;
+  --color-white: #ffffff;
+  --color-slate-100: #f5f7fb;
+  --color-slate-150: #edf1f6;
+  --color-slate-200: #e0e5ed;
+  --color-slate-300: #ccd3de;
+  --text-main: #11161c;
+  --text-soft: #4e5968;
+  --success: #177245;
+  --error: #ab122c;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --shadow-soft: 0 12px 26px rgba(9, 11, 15, 0.1);
+  --shadow-strong: 0 20px 44px rgba(9, 11, 15, 0.16);
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body: 'Rajdhani', sans-serif;
+}
+
+// ─── Base ─────────────────────────────────────────────────────────────────────
+
+html,
+body {
+  min-height: 100%;
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(circle at 12% -6%, rgba(207, 8, 40, 0.16), transparent 36%),
+    radial-gradient(circle at 92% -12%, rgba(17, 22, 28, 0.2), transparent 34%),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(207, 8, 40, 0.02) 0,
+      rgba(207, 8, 40, 0.02) 12px,
+      transparent 12px,
+      transparent 26px
+    ),
+    linear-gradient(180deg, #f9fbfe 0%, #edf1f6 100%);
+}
+
+// ─── Utilities ────────────────────────────────────────────────────────────────
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:where(
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  summary,
+  [role='button'],
+  [tabindex]:not([tabindex='-1'])
+):focus-visible {
+  outline: 3px solid rgba(208, 8, 40, 0.45);
+  outline-offset: 2px;
+}
+
+.material-icons {
+  line-height: 1;
+  vertical-align: middle;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  letter-spacing: 0.45px;
+}
+
+.page-container {
+  width: min(1360px, 100%);
+  margin: 0 auto;
+  padding: 20px 16px 26px;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding: 14px 10px 22px;
+  }
+}

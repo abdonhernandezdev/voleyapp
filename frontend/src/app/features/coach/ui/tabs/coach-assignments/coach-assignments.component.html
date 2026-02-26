@@ -1,0 +1,177 @@
+<section class="grid-two">
+  <article class="card animate-slide-up">
+    <div class="panel-header">
+      <h2>
+        <span class="material-icons">playlist_add_check_circle</span>
+        {{ editingAssignmentId() ? 'Editar asignacion' : 'Nueva asignacion' }}
+      </h2>
+      <button class="btn-outline compact-btn" type="button" (click)="refreshAssignments()">
+        <span class="material-icons">refresh</span>
+        <span>Recargar</span>
+      </button>
+    </div>
+
+    <form class="coach-form" [formGroup]="assignmentForm" (ngSubmit)="submitAssignment()">
+      <label>
+        Titulo
+        <input type="text" formControlName="title" />
+      </label>
+
+      <label>
+        Descripcion (opcional)
+        <textarea rows="3" formControlName="description"></textarea>
+      </label>
+
+      <div class="inline-grid">
+        <label>
+          Tipo de sesion
+          <select class="ui-select" formControlName="mode">
+            @for (mode of modeOptions; track mode.value) {
+              <option [value]="mode.value">{{ mode.label }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          Categoria (opcional)
+          <select class="ui-select" formControlName="category">
+            <option value="">General</option>
+            @for (option of categoryOptions; track option.value) {
+              <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+        </label>
+      </div>
+
+      <div class="inline-grid">
+        <label>
+          Destino
+          <select class="ui-select" formControlName="targetType">
+            @for (target of targetOptions; track target.value) {
+              <option [value]="target.value">{{ target.label }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          Fecha limite
+          <input type="date" formControlName="dueDate" />
+        </label>
+      </div>
+
+      @if (assignmentForm.controls.targetType.value === 'player') {
+        <label>
+          Jugador objetivo
+          <select class="ui-select" formControlName="targetUserId">
+            <option value="">Selecciona jugador</option>
+            @for (player of players(); track player.id) {
+              <option [value]="player.id">{{ player.displayName }} (&#64;{{ player.username }})</option>
+            }
+          </select>
+        </label>
+      }
+
+      @if (editingAssignmentId()) {
+        <label class="toggle-label">
+          <input type="checkbox" formControlName="isActive" />
+          <span>Asignacion activa</span>
+        </label>
+      }
+
+      <div class="form-actions">
+        <button class="btn-primary" type="submit" [disabled]="savingAssignment()">
+          <span class="material-icons">{{ editingAssignmentId() ? 'save' : 'add' }}</span>
+          <span>{{ editingAssignmentId() ? 'Guardar cambios' : 'Crear asignacion' }}</span>
+        </button>
+        @if (editingAssignmentId()) {
+          <button class="btn-outline" type="button" (click)="cancelAssignmentEdit()">
+            <span class="material-icons">close</span>
+            <span>Cancelar</span>
+          </button>
+        }
+      </div>
+    </form>
+
+    @if (assignmentsError()) {
+      <p class="feedback error">{{ assignmentsError() }}</p>
+    }
+  </article>
+
+  <article class="card animate-slide-up">
+    <div class="panel-header">
+      <h2><span class="material-icons">assignment_turned_in</span> Seguimiento</h2>
+    </div>
+
+    @if (loadingAssignments()) {
+      <div class="loading-state">
+        <span class="material-icons icon-inline spin">hourglass_top</span>
+        <span>Cargando asignaciones...</span>
+      </div>
+    } @else {
+      <div class="assignment-list">
+        @for (assignment of assignments(); track assignment.id) {
+          <article class="assignment-card" [class.inactive]="!assignment.isActive">
+            <header>
+              <h3>{{ assignment.title }}</h3>
+              <div class="assignment-actions">
+                <button class="icon-btn" type="button" (click)="startEditAssignment(assignment)">
+                  <span class="material-icons">edit</span>
+                </button>
+                <button class="icon-btn" type="button" (click)="refreshAssignmentProgress(assignment.id)">
+                  <span class="material-icons">refresh</span>
+                </button>
+                @if (assignment.isActive) {
+                  <button class="icon-btn" type="button" (click)="deactivateAssignment(assignment.id)">
+                    <span class="material-icons">block</span>
+                  </button>
+                }
+              </div>
+            </header>
+
+            @if (assignment.description) {
+              <p>{{ assignment.description }}</p>
+            }
+
+            <div class="assignment-meta">
+              <span class="tag">{{ getModeLabel(assignment.mode) }}</span>
+              <span class="tag soft">{{ getCategoryLabel(assignment.category) }}</span>
+              <span class="tag soft">
+                {{ assignment.targetType === 'player' ? 'Individual' : 'Equipo completo' }}
+              </span>
+              @if (assignment.dueDate) {
+                <span class="tag soft">Limite {{ formatDate(assignment.dueDate) }}</span>
+              }
+            </div>
+
+            <div class="progress-line">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" [style.width.%]="assignment.completion.percent"></div>
+              </div>
+              <strong>{{ assignment.completion.completedPlayers }}/{{ assignment.completion.totalPlayers }} ({{ assignment.completion.percent }}%)</strong>
+            </div>
+
+            <details class="players-progress">
+              <summary>Ver estado por jugador</summary>
+              <div class="progress-players-grid">
+                @for (playerProgress of assignment.completion.players; track playerProgress.userId) {
+                  <div class="progress-player">
+                    <div>
+                      <strong>{{ playerProgress.displayName }}</strong>
+                      <small>&#64;{{ playerProgress.username }}</small>
+                    </div>
+                    <div class="state">
+                      <span [class.done]="playerProgress.completed">
+                        {{ playerProgress.completed ? 'Completada' : 'Pendiente' }}
+                      </span>
+                      <small>{{ playerProgress.matchedSessions }} sesiones</small>
+                    </div>
+                  </div>
+                }
+              </div>
+            </details>
+          </article>
+        }
+      </div>
+    }
+  </article>
+</section>

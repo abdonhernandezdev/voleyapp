@@ -1,0 +1,43 @@
+@use 'styles/volleyball-field' as *;
+@use 'styles/game-layout' as *;
+
+// ─── Role selection screen ────────────────────────────────────────────────────
+
+.setup {
+  max-width: 860px;
+  margin: 0 auto;
+  display: grid;
+  gap: 10px;
+}
+
+.setup h2 { font-size: 24px; font-weight: 900; }
+
+.setup-note { font-size: 13px; color: #5a6472; }
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.option-chip {
+  border-radius: 11px;
+  border: 2px solid transparent;
+  padding: 10px;
+  text-align: left;
+  color: #fff;
+  background: #c8102e;
+  cursor: pointer;
+}
+
+.option-chip strong { display: block; font-size: 13px; }
+.option-chip small  { font-size: 11px; text-transform: uppercase; opacity: 0.95; }
+
+.option-chip.setter   { background: #fff; color: #111; border-color: #c8102e; }
+.option-chip.selected { box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.28); }
+
+// ─── Responsive ───────────────────────────────────────────────────────────────
+
+@media (max-width: 700px) {
+  .options-grid { grid-template-columns: 1fr 1fr; }
+}

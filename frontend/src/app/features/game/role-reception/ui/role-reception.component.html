@@ -1,0 +1,182 @@
+<div class="page-container">
+  <div class="header card animate-slide-up">
+    <h1><span class="material-icons">person_pin_circle</span> Recepcion por posicion (6 rotaciones)</h1>
+    <p>Elige tu posicion y colocate correctamente en cada rotacion.</p>
+  </div>
+
+  @if (notConfigured()) {
+    <app-not-configured gameName="Recepcion por posicion" />
+  }
+
+  @if (!notConfigured() && state() === 'setup') {
+    <div class="setup card">
+      <h2>Elige la posicion que vas a entrenar</h2>
+      <p class="setup-note">Modo individual: puntuacion menor que en juegos generales.</p>
+      <div class="options-grid">
+        @for (option of options; track option.id) {
+          <button
+            class="option-chip"
+            [class.selected]="selectedRoleId() === option.id"
+            [class.setter]="option.role === 'Colocador'"
+            [class.front]="option.role !== 'Colocador'"
+            type="button"
+            (click)="chooseRole(option.id)"
+          >
+            <strong>{{ option.label }}</strong>
+            <small>{{ option.role }}</small>
+          </button>
+        }
+      </div>
+      <button class="btn-primary" [disabled]="!selectedRole()" (click)="startGame()">
+        <span class="material-icons">play_arrow</span> Empezar reto
+      </button>
+    </div>
+  }
+
+  @if (state() === 'playing' || state() === 'checked') {
+    <div class="game card">
+      <div class="top">
+        <div>
+          <h2>{{ currentRound().name }}</h2>
+          <p>Jugador: {{ selectedRole()?.label }} ({{ selectedRole()?.role }})</p>
+        </div>
+        <div class="stats">
+          <span>Ronda {{ roundIndex() + 1 }}/{{ rounds.length }}</span>
+          <span><span class="material-icons icon-inline">timer</span> {{ roundSeconds() }}s</span>
+          <span><span class="material-icons icon-inline">star</span> {{ score() }} pts</span>
+        </div>
+      </div>
+
+      <div class="layout">
+        <div class="field-wrap">
+          <div class="field-label"><span class="material-icons">sports_martial_arts</span> Rival</div>
+          <div
+            class="field"
+            (dragover)="onFieldDragOver($event)"
+            (drop)="onFieldDrop($event)"
+            (click)="onFieldTap($event)"
+            (touchstart)="onFieldTouch($event)"
+          >
+            <div class="net"></div>
+            <div class="line"></div>
+            <div class="zone z4">Z4</div>
+            <div class="zone z3">Z3</div>
+            <div class="zone z2">Z2</div>
+            <div class="zone z5">Z5</div>
+            <div class="zone z6">Z6</div>
+            <div class="zone z1">Z1</div>
+
+            @for (lockedToken of lockedTokens(); track lockedToken.id) {
+              <div
+                class="locked-token"
+                [class.front]="isFront(lockedToken.zone)"
+                [class.back]="!isFront(lockedToken.zone)"
+                [class.setter]="lockedToken.role === 'Colocador'"
+                [style.left.%]="lockedToken.point.x"
+                [style.top.%]="lockedToken.point.y"
+              >
+                <strong>{{ lockedToken.label }}</strong>
+                <small>{{ lockedToken.role }}</small>
+              </div>
+            }
+
+            @if (placedToken(); as playerToken) {
+              <button
+                class="token"
+                [class.front]="isFront(playerToken.targetZone)"
+                [class.back]="!isFront(playerToken.targetZone)"
+                [class.setter]="playerToken.role === 'Colocador'"
+                [class.ok]="state() === 'checked' && playerToken.isCorrect"
+                [class.ko]="state() === 'checked' && playerToken.isCorrect === false"
+                [style.left.%]="playerToken.position!.x"
+                [style.top.%]="playerToken.position!.y"
+                [draggable]="supportsDrag && state() === 'playing'"
+                type="button"
+                (dragstart)="onDragStart($event)"
+                (click)="onTokenTap($event)"
+              >
+                <strong>{{ playerToken.label }}</strong>
+                <small>{{ playerToken.role }}</small>
+              </button>
+            }
+          </div>
+          <div class="field-label"><span class="material-icons">sports_volleyball</span> Tu equipo</div>
+        </div>
+
+        <div class="bench">
+          <h3>Tu jugador</h3>
+          <p class="help">Movil: toca la ficha y luego toca campo.</p>
+          @if (token(); as currentToken) {
+            <button
+              class="chip"
+              [class.front]="isFront(currentToken.targetZone)"
+              [class.back]="!isFront(currentToken.targetZone)"
+              [class.setter]="currentToken.role === 'Colocador'"
+              [class.selected]="tokenSelected()"
+              [class.placed]="currentToken.position !== null"
+              [draggable]="supportsDrag && state() === 'playing'"
+              type="button"
+              (dragstart)="onDragStart($event)"
+              (click)="selectToken()"
+            >
+              <strong>{{ currentToken.label }}</strong>
+              <small>{{ currentToken.role }}</small>
+            </button>
+          }
+          <div class="actions">
+            <button class="btn-outline" (click)="resetRound()" [disabled]="state() !== 'playing' || checking()">
+              <span class="material-icons">refresh</span> Reiniciar
+            </button>
+            <button class="btn-primary" (click)="checkRound()" [disabled]="state() !== 'playing' || !placedToken() || checking()">
+              <span class="material-icons">task_alt</span> Comprobar
+            </button>
+          </div>
+          @if (error()) {
+            <p class="help">{{ error() }}</p>
+          }
+
+          @if (state() === 'checked') {
+            <div class="feedback">
+              @if (token()?.isCorrect) {
+                <h4>Posicion correcta</h4>
+              } @else {
+                <h4>Posicion incorrecta</h4>
+              }
+              <p>Ganaste {{ roundPoints() }} puntos en esta rotacion.</p>
+              <button class="btn-primary" (click)="nextRound()">
+                <span class="material-icons">{{ isLastRound() ? 'flag' : 'east' }}</span>
+                {{ isLastRound() ? 'Finalizar reto' : 'Siguiente rotacion' }}
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (state() === 'finished') {
+    <div class="result card animate-bounce-in">
+      <h2>{{ resultTitle() }}</h2>
+      <p>Completaste las {{ rounds.length }} rotaciones de recepcion.</p>
+      <div class="result-grid">
+        <div><strong>{{ score() }}</strong><span>Puntos</span></div>
+        <div><strong>{{ totalCorrect() }}/{{ rounds.length }}</strong><span>Aciertos</span></div>
+        <div><strong>{{ accuracy() }}%</strong><span>Precision</span></div>
+      </div>
+      @if (rankingSummary(); as summary) {
+        <p class="result-note">
+          Puntos de ranking sumados: <strong>{{ summary.awardedPoints }}</strong>
+        </p>
+        <p class="result-note">Juego individual: puntua siempre, pero con valor reducido.</p>
+      }
+      <div class="result-actions">
+        <button class="btn-primary" (click)="playAgain()">
+          <span class="material-icons">refresh</span> Cambiar posicion
+        </button>
+        <a routerLink="/dashboard" class="btn-outline">
+          <span class="material-icons">home</span> Inicio
+        </a>
+      </div>
+    </div>
+  }
+</div>

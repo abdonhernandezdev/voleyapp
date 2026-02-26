@@ -1,0 +1,52 @@
+<div class="results-screen animate-bounce-in">
+  <div class="results-card card">
+    <h2>{{ title }}</h2>
+
+    <div class="results-stats">
+      <div class="result-stat">
+        <div class="rs-value">{{ correctCount }}/{{ totalQuestions }}</div>
+        <div class="rs-label">Aciertos</div>
+      </div>
+      <div class="result-stat highlight">
+        <div class="rs-value">{{ sessionPoints }}</div>
+        <div class="rs-label">Puntos</div>
+      </div>
+      <div class="result-stat">
+        <div class="rs-value">{{ accuracy }}%</div>
+        <div class="rs-label">Precision</div>
+      </div>
+    </div>
+
+    @if (finalScoring) {
+      <p class="results-note">
+        Puntos de ranking sumados: <strong>{{ finalScoring.awardedPoints }}</strong>
+      </p>
+      <p class="results-note">
+        Intentos puntuables hoy en quiz: {{ finalScoring.remainingAwardsToday }}/{{ finalScoring.dailyAwardLimit }}
+      </p>
+    }
+
+    @if (unlockedAchievements.length > 0) {
+      <div class="achievements-unlocked">
+        <h3><span class="material-icons">military_tech</span> Logros desbloqueados</h3>
+        <div class="achievement-list">
+          @for (achievement of unlockedAchievements; track achievement.code) {
+            <div class="achievement-chip">
+              <span class="material-icons">{{ achievement.icon }}</span>
+              <span>{{ achievement.title }}</span>
+              <small>+{{ achievement.rewardPoints }} pts</small>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <div class="results-actions">
+      <button class="btn-primary" (click)="restart.emit()">
+        <span class="material-icons">refresh</span> Jugar de nuevo
+      </button>
+      <a routerLink="/dashboard" class="btn-outline"><span class="material-icons">home</span> Inicio</a>
+      <a routerLink="/ranking" class="btn-outline"><span class="material-icons">leaderboard</span> Ranking</a>
+    </div>
+  </div>
+</div>

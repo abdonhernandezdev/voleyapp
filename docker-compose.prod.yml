@@ -1,0 +1,76 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: voley_db
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: voley_backend
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      NODE_ENV: production
+      DATABASE_HOST: postgres
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DB_SYNCHRONIZE: 'false'
+      DB_MIGRATIONS_RUN: 'true'
+      DB_SSL: ${DB_SSL}
+      DB_SSL_REJECT_UNAUTHORIZED: ${DB_SSL_REJECT_UNAUTHORIZED}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      JWT_ISSUER: ${JWT_ISSUER}
+      JWT_AUDIENCE: ${JWT_AUDIENCE}
+      AUTH_COOKIE_NAME: ${AUTH_COOKIE_NAME}
+      CORS_ORIGINS: ${CORS_ORIGINS}
+      RATE_LIMIT_GLOBAL_TTL_MS: ${RATE_LIMIT_GLOBAL_TTL_MS}
+      RATE_LIMIT_GLOBAL_LIMIT: ${RATE_LIMIT_GLOBAL_LIMIT}
+      RATE_LIMIT_AUTH_TTL_MS: ${RATE_LIMIT_AUTH_TTL_MS}
+      RATE_LIMIT_AUTH_LIMIT: ${RATE_LIMIT_AUTH_LIMIT}
+      NOTIFICATIONS_EMAIL_PROVIDER: ${NOTIFICATIONS_EMAIL_PROVIDER}
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      NOTIFICATIONS_FROM_EMAIL: ${NOTIFICATIONS_FROM_EMAIL}
+      NOTIFICATIONS_APP_URL: ${NOTIFICATIONS_APP_URL}
+      STREAK_REMINDER_AUTOSEND_ENABLED: ${STREAK_REMINDER_AUTOSEND_ENABLED}
+      STREAK_REMINDER_CRON: ${STREAK_REMINDER_CRON}
+      NOTIFICATIONS_TIMEZONE: ${NOTIFICATIONS_TIMEZONE}
+      BCRYPT_ROUNDS: ${BCRYPT_ROUNDS}
+      PORT: 3000
+    ports:
+      - '3000:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: voley_frontend
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

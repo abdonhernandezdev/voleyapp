@@ -1,0 +1,167 @@
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.games-panel {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.section-head h2 {
+  font-size: 24px;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Barlow Condensed', 'Inter', sans-serif;
+}
+
+.section-head p {
+  margin-top: 4px;
+  color: #5a6472;
+  font-size: 14px;
+}
+
+.games-group {
+  border-radius: 14px;
+  border: 1px solid #dbe1ea;
+  background: #fbfcfe;
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.games-group.general-group {
+  border-color: #dfb1bb;
+  background: linear-gradient(180deg, #fffafb 0%, #fff 100%);
+}
+
+.games-group.individual-group {
+  border-color: #d4dbe5;
+  background: linear-gradient(180deg, #f8faff 0%, #fff 100%);
+}
+
+.games-group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.games-group-head h3 {
+  font-size: 20px;
+  font-weight: 900;
+  color: #111;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Barlow Condensed', 'Inter', sans-serif;
+}
+
+.daily-awards {
+  border: 1px solid #e5a8b3;
+  border-radius: 12px;
+  background: #fff4f6;
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.daily-awards h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #7e0f25;
+  font-family: 'Barlow Condensed', 'Inter', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+
+  .material-icons { font-size: 16px; }
+}
+
+.daily-awards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.daily-awards-note {
+  margin: 0;
+  font-size: 12px;
+  color: #7a404b;
+  font-weight: 700;
+}
+
+.daily-award-item {
+  border: 1px solid #d5dce7;
+  border-radius: 10px;
+  background: #fff;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.daily-award-item.available { border-color: #cbd5e3; }
+
+.daily-award-item.exhausted {
+  border-color: #ddb0b9;
+  background: #fff8f9;
+  opacity: 0.85;
+}
+
+.game-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1a1f28;
+}
+
+.remaining-badge {
+  border-radius: 999px;
+  border: 1px solid #c8102e;
+  color: #8e1028;
+  background: #fff;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.weight-chip {
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border: 1px solid transparent;
+}
+
+.weight-chip.high {
+  color: #fff;
+  background: linear-gradient(135deg, #cc102d, #970b20);
+  border-color: #8f0a1e;
+}
+
+.weight-chip.low {
+  color: #232b37;
+  background: #edf1f8;
+  border-color: #c7cfdb;
+}
+
+@media (max-width: 1180px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 700px) {
+  .daily-awards-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,79 @@
+@use 'styles/volleyball-field' as *;
+@use 'styles/game-layout' as *;
+
+// ─── Attack line override (defense uses 34%, not 38%) ────────────────────────
+.line { top: 34%; }
+
+// ─── Field label colors ───────────────────────────────────────────────────────
+.field-label.top    { color: #b80d1a; }
+.field-label.bottom { color: #111; }
+
+// ─── Role selection screen ────────────────────────────────────────────────────
+
+.setup {
+  max-width: 860px;
+  margin: 0 auto 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.setup h2 { font-size: 24px; font-weight: 900; }
+
+.setup-note { font-size: 13px; color: #5a6472; }
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.option-chip {
+  border-radius: 11px;
+  border: 2px solid transparent;
+  padding: 10px;
+  text-align: left;
+  color: #fff;
+  background: #c8102e;
+  cursor: pointer;
+}
+
+.option-chip strong { display: block; font-size: 13px; }
+.option-chip small  { font-size: 11px; text-transform: uppercase; opacity: 0.95; }
+
+.option-chip.setter   { background: #fff; color: #111; border-color: #c8102e; }
+.option-chip.selected { box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.28); }
+
+// ─── Scenario info card (defense-specific) ────────────────────────────────────
+
+.scenario-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.scenario-top h2 { font-size: 24px; font-weight: 900; color: #111; }
+
+.desc {
+  margin-top: 6px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.cues {
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.cues li { font-size: 13px; color: #444; }
+
+.cues li::before { content: '• '; color: #b80d1a; font-weight: 800; }
+
+// ─── Responsive ───────────────────────────────────────────────────────────────
+
+@media (max-width: 700px) {
+  .options-grid    { grid-template-columns: 1fr 1fr; }
+  .scenario-top h2 { font-size: 20px; }
+}

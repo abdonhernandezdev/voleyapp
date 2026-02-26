@@ -1,0 +1,31 @@
+<div class="setup-screen animate-slide-up">
+  <div class="setup-header">
+    <h1><span class="material-icons">quiz</span> Quiz tecnico de voleibol</h1>
+  </div>
+
+  <div class="setup-options card">
+    <h3>Categoria</h3>
+    <div class="category-grid">
+      <button
+        class="cat-btn"
+        [class.selected]="selectedCategory === null"
+        (click)="categoryChange.emit(null)"
+      ><span class="material-icons cat-code">apps</span> Todas</button>
+
+      @for (cat of categories; track cat.key) {
+        <button
+          class="cat-btn"
+          [class.selected]="selectedCategory === cat.key"
+          (click)="categoryChange.emit(cat.key)"
+        >
+          <span class="material-icons cat-code">{{ cat.icon }}</span>
+          <span>{{ cat.label }}</span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <button class="btn-primary start-btn" (click)="start.emit()">
+    <span class="material-icons">play_arrow</span> Iniciar quiz
+  </button>
+</div>

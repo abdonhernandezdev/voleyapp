@@ -1,0 +1,18 @@
+<div class="toast-stack" aria-live="polite" aria-atomic="true">
+  @for (item of items(); track item.id) {
+    <article class="toast" [class]="item.type">
+      <div class="toast-icon">
+        <span class="material-icons">{{ iconFor(item) }}</span>
+      </div>
+      <div class="toast-copy">
+        @if (item.title) {
+          <strong>{{ item.title }}</strong>
+        }
+        <p>{{ item.message }}</p>
+      </div>
+      <button type="button" class="toast-close" (click)="dismiss(item.id)" aria-label="Cerrar notificacion">
+        <span class="material-icons">close</span>
+      </button>
+    </article>
+  }
+</div>
